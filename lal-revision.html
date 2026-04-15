@@ -1,0 +1,1813 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>LAL Revision — One-Shot Paper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF8F3;
+    --paper-2:#F5F0E6;
+    --ink:#1A1915;
+    --ink-2:#4a4740;
+    --rule:#e4ddcc;
+    --amber:#B45309;
+    --amber-2:#D97706;
+    --hl:#FDE68A;
+    --hl-2:#FEF3C7;
+    --max:1180px;
+  }
+  *{box-sizing:border-box}
+  html,body{background:var(--paper);color:var(--ink);margin:0;padding:0}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:15px;
+    line-height:1.7;
+    font-feature-settings:"ss01","cv11";
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 40px}
+  h1,h2,h3,h4,h5{font-family:'Fraunces',Georgia,serif;font-weight:500;color:var(--ink);letter-spacing:-0.01em}
+  h1{font-size:clamp(40px,5vw,68px);line-height:1.02;margin:0 0 14px;font-weight:500;letter-spacing:-0.03em}
+  h2{font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin:0 0 6px;font-weight:500;letter-spacing:-0.02em}
+  h3{font-size:22px;line-height:1.25;margin:42px 0 6px;font-weight:600}
+  h4{font-size:16px;margin:24px 0 8px;font-weight:600;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+  p{margin:0 0 14px;color:var(--ink-2)}
+  a{color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(180,83,9,.3)}
+  a:hover{border-color:var(--amber)}
+
+  /* Header */
+  header.masthead{
+    border-bottom:1px solid var(--rule);
+    padding:46px 0 34px;
+    margin-bottom:20px;
+  }
+  .eyebrow{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--amber)}
+  .sub{font-family:'Fraunces',serif;font-size:19px;font-style:italic;color:var(--ink-2);max-width:640px;margin-top:6px}
+  .meta{display:flex;gap:26px;margin-top:26px;font-size:12px;color:var(--ink-2);letter-spacing:.04em}
+  .meta span b{color:var(--ink);font-weight:600}
+
+  /* TOC */
+  nav.toc{
+    position:sticky;top:0;background:var(--paper);
+    border-bottom:1px solid var(--rule);
+    z-index:20;padding:14px 0;margin-bottom:50px;
+    backdrop-filter:saturate(1.2) blur(6px);
+  }
+  nav.toc ol{display:flex;gap:28px;list-style:none;padding:0;margin:0;font-size:13px;flex-wrap:wrap}
+  nav.toc ol li a{color:var(--ink-2);border:none;display:flex;gap:8px;align-items:baseline}
+  nav.toc ol li a .n{font-family:'Fraunces',serif;font-feature-settings:"onum";color:var(--amber);font-size:14px}
+  nav.toc ol li a:hover{color:var(--ink)}
+
+  /* Sections */
+  section{padding:50px 0 60px;border-top:1px solid var(--rule)}
+  section:first-of-type{border-top:none}
+  .section-head{display:flex;align-items:baseline;gap:18px;margin-bottom:30px}
+  .section-head .num{font-family:'Fraunces',serif;font-feature-settings:"onum";font-size:52px;color:var(--amber);line-height:1;font-weight:400}
+  .section-head .kicker{font-size:12px;text-transform:uppercase;letter-spacing:.18em;color:var(--ink-2);margin-bottom:4px}
+  .lead{font-family:'Fraunces',serif;font-size:20px;line-height:1.55;color:var(--ink-2);max-width:680px;margin-bottom:30px;font-style:italic}
+
+  /* Type cards */
+  .type{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:40px;
+    padding:38px 0;
+    border-top:1px dashed var(--rule);
+  }
+  .type:first-of-type{border-top:1px solid var(--rule);padding-top:44px}
+  .type .meta-col h3{margin-top:0}
+  .type .tag{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);border:1px solid var(--rule);padding:3px 9px;border-radius:999px;background:#fff}
+  .type .whenpick{font-size:13px;color:var(--ink-2);margin-top:10px;font-style:italic;font-family:'Fraunces',serif}
+
+  /* Conventions block — matches image */
+  .conventions{margin:14px 0 0}
+  .conventions h5{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--rule);display:inline-block;padding-right:28px}
+  .conventions ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+  .conventions li{
+    background:var(--hl-2);
+    border-left:3px solid var(--amber-2);
+    padding:9px 14px;
+    font-size:13.5px;
+    color:var(--ink);
+    line-height:1.45;
+  }
+
+  /* Annotated sample box */
+  .sample{
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:32px 38px 30px;
+    margin-top:18px;
+    box-shadow:0 1px 0 rgba(26,25,21,.03);
+    font-family:'Fraunces',Georgia,serif;
+    font-size:15.5px;
+    line-height:1.75;
+    color:var(--ink);
+  }
+  .sample .addr{text-align:right;font-style:italic;color:var(--ink-2);font-size:14px;margin-bottom:6px}
+  .sample .addr p{margin:0}
+  .sample p{color:var(--ink);margin:0 0 12px;font-family:'Fraunces',serif}
+  .sample .signoff{margin-top:14px}
+  .sample .title{font-family:'Fraunces',serif;font-weight:600;font-size:19px;margin-bottom:10px;display:block}
+  .sample .byline{font-size:13px;color:var(--ink-2);font-style:italic;margin-bottom:14px;display:block}
+  .sample .wc{display:block;text-align:right;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-top:18px;padding-top:12px;border-top:1px dashed var(--rule)}
+
+  /* highlight + device tag */
+  mark.dev{
+    background:var(--hl);
+    padding:1px 3px;
+    border-radius:2px;
+    position:relative;
+    color:var(--ink);
+  }
+  mark.dev::after{
+    content:attr(data-d);
+    position:absolute;
+    left:0;bottom:calc(100% + 2px);
+    background:var(--ink);color:var(--paper);
+    font-family:'Inter',sans-serif;
+    font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+    padding:2px 6px;border-radius:2px;
+    white-space:nowrap;
+    opacity:0;transform:translateY(3px);
+    transition:opacity .15s,transform .15s;
+    pointer-events:none;
+  }
+  mark.dev:hover::after{opacity:1;transform:translateY(0)}
+  mark.dev sup{
+    font-family:'Inter',sans-serif;
+    font-size:9px;
+    color:var(--amber);
+    font-weight:600;
+    margin-left:2px;
+    vertical-align:super;
+  }
+
+  /* Compact grid for remaining types */
+  .compact{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;margin-top:30px}
+  .compact .card{background:#fff;border:1px solid var(--rule);border-radius:4px;padding:18px 20px}
+  .compact .card h4{margin:0 0 10px;font-size:13px;letter-spacing:.08em}
+  .compact .card ul{list-style:none;padding:0;margin:0;font-size:12.5px;color:var(--ink-2);display:flex;flex-direction:column;gap:4px}
+  .compact .card ul li{padding-left:12px;position:relative;line-height:1.5}
+  .compact .card ul li::before{content:"";position:absolute;left:0;top:10px;width:5px;height:1px;background:var(--amber)}
+
+  /* Device grid */
+  .devices{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:22px}
+  .dev-card{border:1px solid var(--rule);background:#fff;padding:16px 18px;border-radius:4px}
+  .dev-card .name{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--ink)}
+  .dev-card .def{font-size:12.5px;color:var(--ink-2);margin:4px 0 8px;line-height:1.5}
+  .dev-card .ex{font-family:'Fraunces',serif;font-style:italic;font-size:13.5px;color:var(--ink);border-left:2px solid var(--amber);padding-left:10px}
+  .dev-group{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--amber);margin:30px 0 12px;font-weight:600}
+
+  /* Grammar cards */
+  .grammar{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-top:20px}
+  .gram-card{border:1px solid var(--rule);background:#fff;padding:18px 20px;border-radius:4px}
+  .gram-card h5{font-family:'Fraunces',serif;font-size:17px;margin:0 0 4px;font-weight:600}
+  .gram-card .why{font-size:12px;color:var(--amber);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+  .gram-card .ba{font-family:'Fraunces',serif;font-size:13.5px;line-height:1.55}
+  .gram-card .ba .b{color:var(--ink-2);text-decoration:line-through;text-decoration-color:rgba(180,83,9,.35)}
+  .gram-card .ba .a{color:var(--ink);display:block;margin-top:6px;padding-left:14px;border-left:2px solid var(--amber)}
+  .gram-card .trap{font-size:12px;color:var(--ink-2);font-style:italic;margin-top:10px;padding-top:10px;border-top:1px dashed var(--rule)}
+
+  /* Closer — diction table */
+  .diction{width:100%;border-collapse:collapse;margin-top:18px;font-size:13.5px}
+  .diction th,.diction td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--rule)}
+  .diction th{font-family:'Inter',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2);font-weight:600}
+  .diction td.weak{color:var(--ink-2);font-family:'Fraunces',serif;font-style:italic}
+  .diction td.strong{color:var(--ink);font-family:'Fraunces',serif;font-weight:500}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:16px}
+  .checklist{background:var(--hl-2);border-left:3px solid var(--amber-2);padding:20px 24px;margin-top:28px}
+  .checklist h5{font-family:'Fraunces',serif;margin:0 0 10px;font-size:18px;font-weight:600}
+  .checklist ol{margin:0;padding-left:20px;font-size:13.5px;color:var(--ink)}
+  .checklist ol li{margin-bottom:6px;line-height:1.5}
+
+  footer{padding:60px 0 80px;border-top:1px solid var(--rule);margin-top:60px;text-align:center;font-size:12px;color:var(--ink-2);letter-spacing:.08em}
+
+  @media (max-width:780px){
+    .wrap{padding:0 22px}
+    .type{grid-template-columns:1fr;gap:18px;padding:30px 0}
+    nav.toc ol{gap:14px;font-size:12px}
+    .sample{padding:22px 22px 20px;font-size:15px}
+    .section-head .num{font-size:40px}
+    .two-col{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow">LAL Revision · SEE-1 · April 2026</div>
+  <h1>The One-Shot Revision Paper</h1>
+  <p class="sub">Every text type on the vertical articulation sheet, fifteen annotated exemplars, and a Criterion&nbsp;D playbook — calibrated for the twenty days that remain.</p>
+  <div class="meta">
+    <span><b>Duration</b> 120 min</span>
+    <span><b>Sections</b> 1 · 2a · 2b</span>
+    <span><b>Production</b> ~350 words each</span>
+    <span><b>Goal</b> 7/7</span>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sections">
+  <ol>
+    <li><a href="#lit"><span class="n">I.</span> Literary Text Types</a></li>
+    <li><a href="#nonlit"><span class="n">II.</span> Non-Literary Text Types</a></li>
+    <li><a href="#devices"><span class="n">III.</span> Literary Devices</a></li>
+    <li><a href="#grammar"><span class="n">IV.</span> Advanced Grammar</a></li>
+    <li><a href="#closer"><span class="n">V.</span> Enrichment &amp; Criterion D</a></li>
+  </ol>
+</nav>
+
+<!-- ============ I. LITERARY ============ -->
+<section id="lit">
+  <div class="section-head">
+    <div class="num">I.</div>
+    <div>
+      <div class="kicker">Section One</div>
+      <h2>Literary Text Types</h2>
+    </div>
+  </div>
+  <p class="lead">Literary writing rewards voice, restraint and image — not ornament. Every annotated sample below is built from original prose, tagged with the devices that turned a line from ordinary into markable.</p>
+
+  <!-- 1. NARRATIVE -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Sec 2a</span>
+      <h3>Narrative / Short Story</h3>
+      <p class="whenpick">Pick when the prompt gives you a <em>situation</em>, an image, or the first/last line.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Clear arc — hook, rising action, turn, resolution</li>
+          <li>Single controlling point of view, held throughout</li>
+          <li>Sensory imagery over plot summary; show, don't tell</li>
+          <li>Dialogue that carries character, not exposition</li>
+          <li>Time markers and tense discipline (usually past)</li>
+          <li>Symbolic object or motif that closes the loop</li>
+          <li>Opening hook and resonant, earned final line</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">The Last Tiffin</span>
+        <span class="byline">a narrative · 358 words</span>
+        <p>The platform at Dadar smelled of diesel and wet newsprint, and Lata's steel dabba clicked against her wrist like a small, impatient heart. <mark class="dev" data-d="Simile"><sup>1</sup>Her mother's hands had folded the roti that morning the way they folded everything — carefully, as if grief were a crease that could be ironed out.</mark> She was seventeen, and today was the first day she would deliver tiffins alone.</p>
+        <p>The 7:48 local hissed in. She climbed on with the other dabbawalas, <mark class="dev" data-d="Imagery">the carriage swallowing her whole in a warm blur of sweat, cardamom and yesterday's rain</mark>. A man in a frayed collar made room without looking up. In Bombay, kindness was a thing people did with their elbows.</p>
+        <p>The tiffins had to reach Nariman Point by noon. Her father had run this route for twenty-two years. <mark class="dev" data-d="Metaphor">He had left it to her the way other fathers left jewellery — heavier than it looked, and impossible to resize.</mark> She traced the code on each lid with her thumb: the red circle for a lawyer, the blue dash for a bank clerk, the black cross for the old widow in building nine who only ate what her dead husband had liked.</p>
+        <p>At Marine Lines she almost lost one. It slipped, spun on the platform tiles, and <mark class="dev" data-d="Personification">the city held its breath, pretending not to watch</mark>. A schoolboy caught it mid-roll and handed it back without a word. She nodded; he nodded; nothing was said, and everything was.</p>
+        <p>By eleven-forty the bag was lighter and her shoulders heavier. The widow in building nine opened the door already crying, though nothing had happened yet — or perhaps everything had, years ago, and today was only the aftershock. Lata pressed the tiffin into her hands.</p>
+        <p>"<mark class="dev" data-d="Dialogue / Voice">Khaana garam hai, aunty. Aaj se main aaungi</mark>." <em>The food is warm, aunty. From today, I will come.</em></p>
+        <p>The widow looked at her for a long second, as if recognising someone not quite present, and then she smiled the small, tired smile of women who have learned that the world arrives, eventually, by train.</p>
+        <span class="wc">word count · 358 · devices · simile, imagery, metaphor, personification, vernacular dialogue</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 2. DESCRIPTIVE -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Sec 2a</span>
+      <h3>Descriptive Writing</h3>
+      <p class="whenpick">Pick when the prompt is a place, an object or a photograph — when <em>atmosphere</em> matters more than plot.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Anchors in all five senses, not just sight</li>
+          <li>Controlling mood held from opening to close</li>
+          <li>Movement through space — a camera, not a checklist</li>
+          <li>Specific nouns; adjectives used sparingly</li>
+          <li>Figurative language (simile, metaphor, personification) in every paragraph</li>
+          <li>No plot, but implied presence of a narrator</li>
+          <li>Ends on image, not explanation</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">The Fish Market at Four</span>
+        <span class="byline">descriptive · 362 words</span>
+        <p>At four in the morning, Sassoon Dock is not a market yet — it is a rumour of one. The air tastes of salt and kerosene, and the sea, still half-asleep, <mark class="dev" data-d="Personification">rolls over in its bed of nets and mutters something only the gulls understand</mark>.</p>
+        <p>A single bulb above a weighing-scale throws a puddle of yellow light. Inside that puddle, crates of pomfret glint like coins spilled from some enormous, careless pocket. <mark class="dev" data-d="Simile">The ice beneath them cracks with a sound like tiny bones breaking politely.</mark> Beyond the bulb the dock is all shadow and silhouette — women squatting with their saris tucked between their knees, men in vests the colour of old tea, everyone busy in the dim, unhurried way of people who know the sun has never once been late.</p>
+        <p><mark class="dev" data-d="Sibilance">Silver scales, sloshed seawater, the slap of slippers on slippery stone</mark> — the dock has its own language, hissed rather than spoken. A barefoot child carries a basket almost as tall as she is; she does not stagger. A crow argues with no one in particular. Somewhere a radio plays an old Kishore Kumar song so softly it could be a memory leaking out of the wood.</p>
+        <p>The boats begin to come in. They nose through the dark water one after another, <mark class="dev" data-d="Metaphor">tired mothers returning with the night's difficult children</mark> — prawns that twitch, crabs that click, eels that coil and accuse. The men on board heave them ashore in long, wet handfuls. Prices are called. Prices are dismissed. Fingers snap. A price is agreed.</p>
+        <p>And then, almost without anyone noticing, a thin pink <mark class="dev" data-d="Imagery">ribbon uncurls along the horizon — pale, uncertain, the colour of the inside of a shell</mark>. The gulls rise first. The bulb is switched off. The market, which was a rumour, becomes a fact. By the time the city's alarms begin to ring, Sassoon Dock has already lived half a day, and is only just now pausing to stretch its silver, fish-scaled back.</p>
+        <span class="wc">word count · 362 · devices · personification, simile, sibilance, metaphor, imagery</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 3. MONOLOGUE -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Sec 2a</span>
+      <h3>Monologue</h3>
+      <p class="whenpick">Pick when you can hear a single voice in your head and the prompt hands you a crisis, a confession or a memory.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>One speaker, addressing self, audience or an unseen listener</li>
+          <li>Distinctive voice — rhythm, tic, vocabulary, register</li>
+          <li>Stage directions in italics or square brackets, used sparingly</li>
+          <li>Emotional arc: entry, shift, revelation</li>
+          <li>Breaks, pauses and self-corrections that mimic real thought</li>
+          <li>At least one moment where the speaker surprises themselves</li>
+          <li>Final line that lingers — a silence, an image, a return</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">Understudy</span>
+        <span class="byline">monologue · 356 words</span>
+        <p><em>[A girl, seventeen, in a costume that doesn't quite fit. An empty auditorium. She is holding a half-eaten samosa.]</em></p>
+        <p>They said I'd go on if Ritika got sick. Ritika doesn't get sick. Ritika doesn't get <em>tired</em>. Ritika, I am fairly certain, does not even <mark class="dev" data-d="Hyperbole">produce lactic acid like the rest of us mortals</mark>. I have watched her for three months from the wings, mouthing her lines into my collarbone, and I could perform this play standing on my head in a monsoon.</p>
+        <p>So today I did something. Don't look at me like that — I didn't <em>poison</em> her. Please. I put an extra spoon of sugar in her tea. <em>[beat]</em> Seven spoons. <mark class="dev" data-d="Irony">I told her the canteen aunty had made it specially, because she was the lead. I called her the lead. I smiled so hard my face hurt.</mark> She drank it. She smiled back. And then, at four o'clock, on cue, like a very obedient understudy herself, her stomach began to rewrite the schedule.</p>
+        <p><em>[She looks up, then down at the samosa.]</em></p>
+        <p>Here's the thing nobody tells you about getting what you want. It arrives <mark class="dev" data-d="Oxymoron">bitterly sweet</mark>, like tea with seven spoons of sugar. It arrives wearing Ritika's face, and her mother crying in row four, and the whole auditorium looking past you because they came to see someone else. My name isn't even in the programme. They'll announce it before the curtain. <em>"In today's performance, the role of Radha will be played by —"</em> and then a pause while someone squints at a Post-it.</p>
+        <p><mark class="dev" data-d="Rhetorical question">Is this ambition? Is this what the word feels like inside a seventeen-year-old chest?</mark> It feels less like fire and more like <mark class="dev" data-d="Metaphor">swallowing a small, grown-up version of myself, whole and still protesting</mark>.</p>
+        <p><em>[She puts the samosa down. Stands. Breathes.]</em></p>
+        <p>Places in five. I have waited three months. I have three hours to forgive myself. Or — better plan — three hours to be so good that I don't have to.</p>
+        <span class="wc">word count · 356 · devices · hyperbole, irony, oxymoron, rhetorical question, metaphor</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 4. DIALOGUE / SCRIPT -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Sec 2a</span>
+      <h3>Dialogue / Script</h3>
+      <p class="whenpick">Pick when the prompt is a conflict between two people, or asks for a scene.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Character names in caps or bold, left-aligned</li>
+          <li>Stage directions italicised and minimal</li>
+          <li>Distinct voices — no two characters should sound the same</li>
+          <li>Subtext: the real conversation under the spoken one</li>
+          <li>Conflict that escalates, not just continues</li>
+          <li>Beats of silence used as punctuation</li>
+          <li>Exits on a line, not an explanation</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">Report Card</span>
+        <span class="byline">two-hander · 361 words</span>
+        <p><em>[A kitchen. Evening. AMMA is cutting onions. ARJUN, fifteen, slides a folded paper across the counter and sits very straight, as if straightness is a kind of defence.]</em></p>
+        <p><b>AMMA.</b> Put it on the table, not in my hand. My hands are busy. <em>(a beat)</em> Busy like mine, beta, so that yours can be free later.</p>
+        <p><b>ARJUN.</b> I got a five in math.</p>
+        <p><b>AMMA.</b> <em>(still cutting)</em> Out of seven?</p>
+        <p><b>ARJUN.</b> Out of seven.</p>
+        <p><b>AMMA.</b> Out of seven is not bad.</p>
+        <p><b>ARJUN.</b> Out of seven is not a seven.</p>
+        <p><em>[AMMA stops cutting. She does not turn around.]</em></p>
+        <p><b>AMMA.</b> <mark class="dev" data-d="Parallelism">Your nana cut sugarcane. Your dada drove an auto. Your father fixes computers. You</mark> — you solve x. And you think five out of seven is not a seven?</p>
+        <p><b>ARJUN.</b> Ritesh got seven.</p>
+        <p><b>AMMA.</b> Ritesh is not my son.</p>
+        <p><b>ARJUN.</b> Exactly.</p>
+        <p><em>[Silence. AMMA turns. The knife is still in her hand but pointed, now, at nothing.]</em></p>
+        <p><b>AMMA.</b> <mark class="dev" data-d="Metaphor">Arjun, a five is not a wound, it's a door with a lock that's a little stuck.</mark> You push it again tomorrow.</p>
+        <p><b>ARJUN.</b> And if it's stuck again tomorrow?</p>
+        <p><b>AMMA.</b> Then the day after. <em>(softer)</em> You know what my mother told me on my wedding day? She said, <mark class="dev" data-d="Irony">"Beti, a grade is not a verdict, it is only a weather report."</mark></p>
+        <p><b>ARJUN.</b> <em>(small smile)</em> That is a terrible thing to say on a wedding day.</p>
+        <p><b>AMMA.</b> It is a terrible thing to say on any day. <em>(she picks up the report card)</em> But you remember it, don't you?</p>
+        <p><b>ARJUN.</b> I remember everything you tell me, Amma. That is actually my problem.</p>
+        <p><em>[AMMA laughs — a short, surprised laugh, the first of the evening. She slides the card back.]</em></p>
+        <p><b>AMMA.</b> Go. Eat. <mark class="dev" data-d="Foreshadowing">Tomorrow the door.</mark></p>
+        <p><b>ARJUN.</b> Tomorrow the door.</p>
+        <p><em>[Lights down on onions, still waiting to be cut.]</em></p>
+        <span class="wc">word count · 361 · devices · parallelism, metaphor, irony, foreshadowing, subtext</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 5. POETRY -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Paper 1</span>
+      <h3>Poetry (Free Verse)</h3>
+      <p class="whenpick">Rarely a production option — but high-probability Paper&nbsp;1 analysis. Learn the anatomy.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Compressed image, not summary</li>
+          <li>Deliberate line breaks — pause, surprise, emphasis</li>
+          <li>Sound patterning (alliteration, assonance, consonance)</li>
+          <li>Controlling metaphor or image that returns</li>
+          <li>Turn (<em>volta</em>) somewhere in the middle or near the end</li>
+          <li>Title that <em>does</em> something — reframes the poem</li>
+          <li>Final line that rings, not concludes</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">Load-Shedding, 8:47 pm</span>
+        <span class="byline">free verse · 44 lines / 358 words of commentary + poem</span>
+        <p style="font-family:'Fraunces',serif;white-space:pre-line;font-style:italic">
+The fridge sighs first — it always does,
+the old socialist of the house,
+complaining loudest when the power leaves.
+
+Then the tubelight flickers, reconsiders,
+and <mark class="dev" data-d="Personification">the ceiling fan slows like a tired argument</mark>
+no one was winning anyway.
+
+Amma lights the candle she keeps
+in the third drawer beside the turmeric,
+and the kitchen becomes a small,
+<mark class="dev" data-d="Oxymoron">bright darkness</mark> —
+the way grief is, the first evening.
+
+Outside, the lane remembers how to speak.
+A bicycle bell. A baby. A neighbour
+calling a neighbour by her full name
+for the first time since the wedding.
+<mark class="dev" data-d="Anaphora">The city forgets. The city forgets. The city forgets</mark>
+its electric manners and becomes,
+for eleven minutes, the village it used to be.
+
+I do my homework by the candle's throat-clear light.
+The equations lean, warm, almost affectionate.
+<mark class="dev" data-d="Metaphor">Algebra is easier by flame;
+the unknown is suddenly familiar,
+a cousin who visits in the dark.</mark>
+
+When the power returns —
+and it always returns, eventually,
+apologising in the language of humming —
+the tubelight bleaches the candle back
+into a piece of wax, a wick, a witness.
+
+Amma blows it out.
+<mark class="dev" data-d="Imagery">A small grey comma of smoke
+punctuates the room</mark>, and the fridge
+resumes its old, reassured complaint.
+
+I keep doing my homework
+but the equations, ungrateful,
+have gone back to being equations.
+        </p>
+        <p style="font-family:'Inter',sans-serif;font-size:12px;color:var(--ink-2);font-style:normal;border-top:1px dashed var(--rule);padding-top:12px;margin-top:16px">
+          <b>Reading note.</b> The poem's <em>volta</em> is "and it always returns, eventually" — the shift from outage as loss to outage as gift. The controlling metaphor (flame = intimacy, fluorescence = routine) is set up, inverted, and released. The anaphora "<em>The city forgets</em>" is the rhythmic heart.
+        </p>
+        <span class="wc">word count · 358 (poem + note) · devices · personification, oxymoron, anaphora, metaphor, imagery</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 6. MEMOIR -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Paper 1</span>
+      <h3>Memoir / Autobiographical Extract</h3>
+      <p class="whenpick">Frequent Paper&nbsp;1 reading text — and a quiet favourite under "descriptive" in Sec&nbsp;2a.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>First-person, retrospective voice — the older self remembering</li>
+          <li>A specific moment held in close focus, not a timeline</li>
+          <li>Double vision: child-perception <em>and</em> adult-understanding</li>
+          <li>Sensory detail anchored to real places and names</li>
+          <li>Honesty over flattery — the speaker is allowed to be wrong</li>
+          <li>A reflective sentence that earns its wisdom</li>
+          <li>Opens in scene, not in summary</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">The Summer of the Green Cycle</span>
+        <span class="byline">memoir · 364 words</span>
+        <p>I was eleven the summer my father brought home the green cycle, and for a few weeks I believed, in the uncomplicated way only eleven-year-olds can, that the cycle was a form of love. It had a bell shaped like a teardrop and a saddle that smelled faintly of rubber and rain. <mark class="dev" data-d="Metaphor">It was, I now see, the shape of an apology we did not yet have words for.</mark></p>
+        <p>Appa had missed most of that year. The phrase we used at home was "work in the Gulf", which in Kerala in those days was a kind of liturgy — a sentence you repeated so often the missing person became a blessing rather than an absence. When he came back for summer he brought a tin of powdered milk for my mother, a box of dates for my grandmother, and, for me, this green, astonishing machine.</p>
+        <p>I could not ride it. <mark class="dev" data-d="Hyperbole">I had spent my entire life — all eleven years of it — failing to balance on anything that had fewer than four legs.</mark> My cousins mocked me with the gentle ferocity of cousins. My father, who had the patient hands of a man who had learned patience by being paid very little for it, held the saddle and walked beside me up and down the sandy lane behind our house.</p>
+        <p>"Keep looking at the end of the lane," he said. "Not at the front wheel. The cycle goes where your eyes go."</p>
+        <p>I think I have spent the rest of my life discovering how true that sentence was. <mark class="dev" data-d="Aphorism / Reflection">The cycle goes where your eyes go, and so does almost everything else — fear, ambition, love.</mark> That afternoon I fell exactly seven times. On the eighth I did not fall. I looked up and the end of the lane was further than it had been, and my father's hand was no longer on the saddle. It had been gone, I later learned, for almost a full minute.</p>
+        <p>He watched me ride past the gate and out into the <mark class="dev" data-d="Imagery">brown, sun-bitten afternoon, the coconut fronds clacking above me like applause that was somehow both for me and for him</mark>.</p>
+        <span class="wc">word count · 364 · devices · metaphor, hyperbole, aphorism, imagery, retrospective voice</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 7. REFLECTIVE DIARY -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Sec 2b</span>
+      <h3>Diary (Reflective)</h3>
+      <p class="whenpick">Pick when the prompt asks for a <em>personal response</em> to an event — it is the safest Sec&nbsp;2b option for Criterion&nbsp;D voice.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Dated entry, often with place and time</li>
+          <li>First-person, present-tense sense of immediacy</li>
+          <li>Private register — free to be messy, honest, interrupted</li>
+          <li>Emotion <em>on</em> the page, not just around it</li>
+          <li>A turn or realisation mid-entry</li>
+          <li>Closing line that sounds like the diary being shut</li>
+          <li>Optional sign-off ("— A.")</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">Tuesday, 12:41 am</span>
+        <span class="byline">reflective diary · 357 words</span>
+        <p><em>Tuesday. Past midnight, so technically Wednesday. The house is asleep and the fridge is doing that humming thing it does when it wants to be a pet.</em></p>
+        <p>I did not get the part. I am writing that first so I don't have to lead up to it like a bad speech. Ritika got it, which — obviously — Ritika got it. I clapped. I clapped loudly, the way you clap when you are trying to convince your own hands that you are fine.</p>
+        <p>Here is the strange thing, diary. <mark class="dev" data-d="Irony">I am sadder about the clapping than about the losing.</mark> The losing I can understand. The losing has a reason — Ritika was, annoyingly, excellent. But the clapping was a performance I gave for an audience of one (myself), and I did not even get a good review.</p>
+        <p>Ma asked if I wanted to talk about it and I said no in a voice that meant yes and she, being Ma, heard the yes. She brought me badam milk that was too hot and sat on the edge of the bed without saying anything. That is her whole technique. <mark class="dev" data-d="Metaphor">She waits for your feelings the way a fisherwoman waits for fish — patiently, as if the waiting itself were a kind of catch.</mark></p>
+        <p>Eventually I cried a little. Not the cinematic kind. The <mark class="dev" data-d="Oxymoron">quietly loud</mark> kind, where your shoulders do all the work and your face barely cooperates.</p>
+        <p>I keep thinking of what Appa said last month — that disappointment is just ambition finding out it has legs. I didn't understand it then. I think I almost understand it now. I <em>wanted</em> that part. The wanting did not go away because somebody else got it. The wanting is still here, walking around my ribs like a stubborn, well-lit tenant.</p>
+        <p><mark class="dev" data-d="Rhetorical question">Is it childish to still want something after the door has closed?</mark> Or is it the whole point?</p>
+        <p>Anyway. The milk has skin on it now. I should sleep. Tomorrow I have to be nice to Ritika, and mean it.</p>
+        <p style="text-align:right">— A.</p>
+        <span class="wc">word count · 357 · devices · irony, metaphor, oxymoron, rhetorical question, voice</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 8. FABLE -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Fable</h3>
+      <p class="whenpick">Pick when the prompt asks for a <em>lesson</em> wrapped in a story. Short, pointed, animal-led.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Animal characters standing in for human flaws</li>
+          <li>Compressed length — a parable, not a novella</li>
+          <li>Past tense, timeless setting</li>
+          <li>Dialogue that reveals character instantly</li>
+          <li>One clear moral, stated or implied</li>
+          <li>Simple, almost oral-tradition rhythm</li>
+          <li>Closing line doubles as the takeaway</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">The Peacock Who Learned to Listen</span>
+        <span class="byline">fable · 352 words</span>
+        <p>In a forest where every tree had an opinion and the river had two, there lived a peacock called Pratham who was unusually beautiful and unusually certain of it. Each morning he walked the red path by the banyan and fanned his tail at the ferns, and <mark class="dev" data-d="Personification">the ferns, who were polite, bowed exactly as far as ferns are permitted to</mark>.</p>
+        <p>One afternoon an old tortoise named Bhooma crossed his path. She was small and dusty and, in Pratham's considered opinion, aesthetically disappointing.</p>
+        <p>"Move, grandmother," said Pratham, "you are in the way of my admirers."</p>
+        <p>Bhooma blinked once, slowly. "I do not see any admirers."</p>
+        <p>"They are there," said Pratham, waving his tail at the empty clearing. "They are simply too overwhelmed to clap."</p>
+        <p>Bhooma settled on the path as if she intended to stay for an era. "Peacock," she said, "tell me one thing you have heard this morning."</p>
+        <p>Pratham thought. He had heard his own wings. He had heard his own feet. He had heard, now that he considered it, an enormous and uninterrupted quantity of himself.</p>
+        <p>"I have heard," he said slowly, "many very important sounds."</p>
+        <p>"Name one."</p>
+        <p>He could not.</p>
+        <p>Bhooma nodded, unsurprised. "<mark class="dev" data-d="Aphorism">A tail is a thing you are given. A pair of ears is a thing you must earn.</mark>" And she walked on, which for a tortoise took some time.</p>
+        <p>Pratham stood in the clearing until his shadow grew long. <mark class="dev" data-d="Imagery">The ferns rustled without bowing; the river changed its second opinion; somewhere a koel argued with a crow about the correct way to end a sentence.</mark> He closed his tail — it made, for the first time in his life, a small, unnoticed sound — and listened.</p>
+        <p>He listened for such a long time that, by evening, <mark class="dev" data-d="Irony">he was the only creature in the forest who could tell you, accurately, what the forest sounded like. And the forest, quietly, began to admire him for it.</mark></p>
+        <p><b>Moral:</b> The loudest feather in the tail can be quieter than a listening ear.</p>
+        <span class="wc">word count · 352 · devices · personification, aphorism, imagery, irony</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 9. MYTH / LEGEND -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Myth / Legend</h3>
+      <p class="whenpick">Pick when the prompt invites an origin story, a god, or an explanation for a natural thing.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Opening formula ("Long before…")</li>
+          <li>Divine, elemental or heroic protagonist</li>
+          <li>Explains a phenomenon of the natural world</li>
+          <li>Elevated, almost liturgical register</li>
+          <li>Epithets and repetition (the rule of three)</li>
+          <li>Consequence / transformation at the climax</li>
+          <li>Closing line connects myth to the present</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">How the Monsoon Learned to Knock</span>
+        <span class="byline">myth · 356 words</span>
+        <p>Long before calendars, before clocks, before the first farmer drew a line around a field and called it <em>his</em>, the monsoon did not knock. It arrived, as weather once did, without any sense of appointment — sometimes at dawn, sometimes at midnight, sometimes not for three years together, and once, by mistake, twice in the same afternoon.</p>
+        <p>In those days the god of rains was a girl named Vaani. She rode on a cloud that obeyed her the way a good horse obeys a careful rider, and her laughter was the first thunder and the last. She was beloved, and she was, <mark class="dev" data-d="Epithet">in the manner of those who are beloved too early, a little careless with other people's roofs</mark>.</p>
+        <p>One evening, restless, she let her cloud down upon a village that had no warning. The rice seedlings, newly planted, were drowned. The cattle scattered. An old weaver lost the sari she had been working on for her daughter's wedding, and her loom, and the last letter from her son. <mark class="dev" data-d="Tricolon">She lost a garment, and a trade, and a memory, all in one afternoon.</mark></p>
+        <p>The weaver did not curse the god. That is not what weavers do. She walked to the highest hill in the district and spoke, as weavers speak, with the patience of someone who has untangled worse.</p>
+        <p>"Daughter," she said to the cloud, "I have no quarrel with your water. I have a quarrel with your manners. <mark class="dev" data-d="Direct address">When you come to a house, knock first.</mark>"</p>
+        <p>Vaani, who had never been told a truth so small, was ashamed. She sent back the cloud and, for three days, did not laugh at all. <mark class="dev" data-d="Personification">The sky kept its own counsel.</mark></p>
+        <p>On the fourth day, far to the east, a breeze began — a dry, unremarkable breeze, the kind a child might feel on the back of the neck. Behind it came a low, polite rumble. Behind that, at last, the rain.</p>
+        <p>That rumble is what we still call, in the old language, <em>the monsoon's knock</em>. And a house that hears it before the water comes knows, even today, to open its doors.</p>
+        <span class="wc">word count · 356 · devices · epithet, tricolon, direct address, personification</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 10. FAIRY TALE -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Fairy Tale</h3>
+      <p class="whenpick">Pick when the prompt wants enchantment and a clean moral — formula is your friend.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Opening formula ("Once, in a kingdom…")</li>
+          <li>Rule of three — wishes, trials, siblings</li>
+          <li>Clear good vs evil polarity</li>
+          <li>A magical object or helper</li>
+          <li>A test of character, not cleverness</li>
+          <li>Transformation or reward at the close</li>
+          <li>Formulaic ending ("and from that day…")</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">The Girl Who Borrowed Light</span>
+        <span class="byline">fairy tale · 358 words</span>
+        <p>Once, in a kingdom where the sun had grown tired and gone to bed early for many winters, there lived a girl called Neela who owned nothing except a small clay lamp and the habit of being kind to strangers. The lamp had been her grandmother's. It held one drop of oil — never more — and it burned, curiously, only when somebody else needed the light more than she did.</p>
+        <p>One cold evening three travellers came to her door.</p>
+        <p>The first was a merchant, heavy with coin, who complained that the road was too dark for counting. Neela lit the lamp, and the merchant counted his coins and went on without thanking her. <mark class="dev" data-d="Rule of three">The lamp did not refill.</mark></p>
+        <p>The second was a minister, heavy with titles, who complained that the road was too dark for thinking. Neela lit the lamp, and the minister thought his important thoughts and went on without looking at her face. The lamp did not refill.</p>
+        <p>The third was a child, heavy with nothing, who was crying because he had lost his mother on the road and could not see his own hands in the dark. Neela lit the lamp. The child stopped crying. He held the lamp up to his face and said, "Your hands look tired."</p>
+        <p>Neela, who had not been noticed for a very long time, <mark class="dev" data-d="Imagery">felt a small, astonished warmth open inside her chest, like a second, private lamp</mark>.</p>
+        <p>When the child had gone — his mother had been only half a field away — Neela looked down at her lamp. <mark class="dev" data-d="Magical transformation">It was full. Not with oil. With a steady, kind, unhurried light that needed no wick at all.</mark></p>
+        <p>The kingdom, it is said, grew warmer after that. The sun came back, eventually — the sun is shy, not unkind — but the old people say it was Neela's lamp that taught it the way.</p>
+        <p><mark class="dev" data-d="Formulaic close">And from that day to this, in that kingdom, a house that is kind to strangers is said to be "carrying Neela's light" — and nobody, not even the sun, ever arrives at such a house without knocking first.</mark></p>
+        <span class="wc">word count · 358 · devices · rule of three, imagery, magical transformation, formulaic close</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 11. FANTASY -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Fantasy</h3>
+      <p class="whenpick">Pick when you can imagine a world with rules of its own and want to practise world-building through detail.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Consistent magic system with limits</li>
+          <li>World-building via detail, not exposition dump</li>
+          <li>Otherworld, portal, or altered-earth setting</li>
+          <li>Quest or threshold structure</li>
+          <li>Named invented places, items, creatures</li>
+          <li>Stakes beyond the protagonist alone</li>
+          <li>Opening in motion, not explanation</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">The Cartographer of Borrowed Weather</span>
+        <span class="byline">fantasy · 361 words</span>
+        <p>In the city of Saar-e-Aab, where it rained only on Thursdays and only on the rich, Ismet kept a shop that sold weather by the hour. He was the last cartographer of borrowed storms, and his map was not of land but of sky — a great parchment the size of a bedsheet, on which the clouds above the city moved, slowly and legally, from household to household.</p>
+        <p>The magic of Saar-e-Aab was simple and cruel. A family could buy, at the Council's office, the right to an hour of a particular weather — a cool drizzle for a wedding, a thick fog to hide a funeral, a spoonful of snow for a dying grandmother's last wish. <mark class="dev" data-d="World-building detail">The skies obeyed the coins, as skies have always, in every world, obeyed the coins of those who were paying attention.</mark></p>
+        <p>Only one family in the old quarter — the Dervish sisters, weavers and orphans — had never bought any weather at all. For seventeen years their rooftop had held only whatever was left over: a warm wind nobody wanted, a pale sun on a Tuesday, the occasional confused drizzle that had lost its appointment.</p>
+        <p>It was the youngest Dervish, Halima, who came to Ismet's shop on a sunless morning in the month of Naar. She had no coins. She had a small wooden box and inside the box, carefully folded, a single thundercloud she had been saving since her mother's death.</p>
+        <p>"I want to give it back," she said.</p>
+        <p>Ismet, who had bought and sold a hundred thousand skies, had never in his life been offered one. <mark class="dev" data-d="Metaphor">He felt the map under his hand grow warm, the way a letter grows warm when it is finally addressed to the right person.</mark></p>
+        <p>"You understand," he said carefully, "that if you give it back, the next storm that falls on the old quarter will be <em>free</em>. The Council will be furious."</p>
+        <p>Halima looked at him with the flat, certain gaze of orphans and cartographers. <mark class="dev" data-d="Foreshadowing">"Let them be furious," she said. "Weather was never theirs to sell."</mark> And outside, for the first time that Naar, thunder — unpaid for and unapologetic — began to roll across the rooftops.</p>
+        <span class="wc">word count · 361 · devices · world-building, metaphor, foreshadowing, invented proper nouns</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 12. SCI-FI -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Science Fiction</h3>
+      <p class="whenpick">Pick when the prompt asks "what if…?" and you can ground a speculative idea in one believable human detail.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>One speculative premise, held rigorously</li>
+          <li>Detail over exposition — show the rule in action</li>
+          <li>A human problem inside the futuristic frame</li>
+          <li>Invented-but-consistent vocabulary</li>
+          <li>Moral or ethical question about the technology</li>
+          <li>Plausible cause and effect</li>
+          <li>Quiet, ordinary closing image</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">The Last Person to Remember</span>
+        <span class="byline">science fiction · 359 words</span>
+        <p>By the time the policy was announced, the Memory Bureau had already been operating for eleven years. Citizens between the ages of forty and seventy were offered a simple exchange: for a modest monthly credit against their tax, they would upload one personal memory a week to the civic archive. The memories were anonymised, they were assured. They were also — although the assurance was printed in smaller letters — <em>removed</em>.</p>
+        <p>Most people chose the credit. <mark class="dev" data-d="Speculative premise">Nobody, the Bureau explained, missed a memory they no longer remembered having.</mark></p>
+        <p>Amma was sixty-four when the Bureau officer came to the door. She made him tea, because she was the last person in our neighbourhood who still made tea for strangers, and she asked him, politely, to explain exactly what she would be giving up. He read from the script. He showed her the slider on his tablet. He offered her the starter credit of two thousand rupees.</p>
+        <p>"<mark class="dev" data-d="Direct speech">Which memories?</mark>" she said.</p>
+        <p>"You choose, ma'am. The system suggests low-utility ones — the ones you have not accessed in more than a year. Old phone numbers. Recipes you have written down. The names of childhood pets."</p>
+        <p>"And my husband's voice?"</p>
+        <p>The officer smiled. "That would be classified as <em>high-utility</em>. The system would never suggest it."</p>
+        <p>Amma nodded. She drank her tea. She told the officer she would think about it and then she told him she had thought about it and that her answer was no — not <em>not yet</em>, but no.</p>
+        <p>He was, by the training manual, obliged to ask why. She said, "<mark class="dev" data-d="Aphorism">A memory you do not use is not the same as a memory you do not need. A house has a cellar.</mark>"</p>
+        <p>After he left she sat by the window for a long time. I came home from school and found her there. <mark class="dev" data-d="Quiet closing image">The tea was cold; the house was quiet; and in the low afternoon light she was whispering, very softly, a phone number I did not recognise — holding on to it, the way, I suppose, our whole family will one day hold on to her.</mark></p>
+        <span class="wc">word count · 359 · devices · speculative premise, direct speech, aphorism, closing image</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 13. SUSPENSE -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Suspense</h3>
+      <p class="whenpick">Pick when the prompt is built on <em>dread</em> — what is just out of sight, just about to happen.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Delayed revelation — withhold the monster</li>
+          <li>Sensory focus on sound, absence, small changes</li>
+          <li>Short, clipped sentences at peak moments</li>
+          <li>A ticking clock, literal or figurative</li>
+          <li>Ordinary setting turned unfamiliar</li>
+          <li>Unreliable detail — "or was it?"</li>
+          <li>Cut-off ending rather than resolution</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">The 11:42 to Nowhere</span>
+        <span class="byline">suspense · 357 words</span>
+        <p>The last local from Churchgate was always, always, the 11:42. Everyone who worked the night shift knew it. The timetable knew it. The crows on the overhead wires, in their crow way, knew it.</p>
+        <p>So when Priya stepped onto the platform at Grant Road at 11:51, and the indicator still read <em>11:42 — ARRIVING</em>, she stopped.</p>
+        <p>The platform was empty. This in itself was not strange. The small sounds of a station emptying — the scrape of a broom, the last shutter coming down at the bhel stall, the uncertain click of a fluorescent tube deciding whether to continue existing — all of that had already happened. <mark class="dev" data-d="Absence as threat">What was strange was the absence of the absence. It was too quiet, and the quiet was listening back.</mark></p>
+        <p>She checked her phone. 11:51. 11:51. 11:51.</p>
+        <p>The screen was not refreshing.</p>
+        <p>Down the track, from the direction of the city, a single headlight appeared. Priya had taken this train four hundred times. She knew — with the certainty of habit — what the approach of the 11:42 looked like. <mark class="dev" data-d="Short clipped sentences">This was wrong. It was too bright. It was too silent. There was no rattle on the rails.</mark></p>
+        <p>The light grew. It did not slow.</p>
+        <p>She stepped back from the yellow line.</p>
+        <p>And then — and this is the part she could not, afterwards, explain to the station-master, or to her mother, or to the young constable who took her statement with the patience of a man who had heard stranger things — the train, impossibly, passed <em>through</em> the station without stopping. Without a sound. Without, so far as she could see, any passengers.</p>
+        <p>She watched its last carriage recede into the dark towards Bombay Central. On the back of the last carriage, facing her, someone had chalked, in letters large enough to read from the platform, three words: <em>DON'T BE LATE</em>.</p>
+        <p>Her phone, at that exact instant, refreshed. <mark class="dev" data-d="Cut-off ending">11:42.</mark></p>
+        <p>Down the track, from the direction of the city, a single headlight —</p>
+        <span class="wc">word count · 357 · devices · absence as threat, clipped syntax, unreliable detail, cut-off ending</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 14. BIOGRAPHY -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Paper 1</span>
+      <h3>Biography</h3>
+      <p class="whenpick">Pick when the prompt asks you to write about <em>someone else</em> — researched, respectful, anchored in fact.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Third-person, researched register</li>
+          <li>Chronological or thematic structure</li>
+          <li>Specific anchors — dates, places, witnesses</li>
+          <li>Balance of fact and characterisation</li>
+          <li>One defining anecdote, told in close detail</li>
+          <li>Legacy / influence addressed explicitly</li>
+          <li>Closing sentence that places the subject in time</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">Shanta Bai: The Headmistress Who Refused a Promotion</span>
+        <span class="byline">biographical profile · 364 words</span>
+        <p>Shanta Bai was born in 1931 in the village of Kolhapur district that does not, any longer, exist by that name. Her father was a schoolteacher who owned two books and one opinion — that a daughter's education was the best insurance against a century she did not trust. He taught her to read in Marathi, English and, improbably, a little French, and when she was fourteen he walked her ten kilometres every Sunday to the nearest town library and waited on the steps until she had finished.</p>
+        <p>She qualified as a teacher in 1951. By 1962 she was headmistress of a municipal girls' school in Pune that had, at the time of her appointment, forty-three students and one toilet. By 1975 it had six hundred and eleven students and seven toilets, and Shanta Bai was being offered, for the third and final time, a promotion to the Directorate.</p>
+        <p>She refused, again. <mark class="dev" data-d="Direct quotation with attribution">"I was not trained," she is reported to have told the Deputy Director in a now-locally-famous exchange, "to govern schools. I was trained to run one. They are not the same profession."</mark></p>
+        <p><mark class="dev" data-d="Anchored detail">Former students remember her for three things: the fountain pen she always carried clipped to her sari, the green register in which she wrote by name every single girl who had missed school for more than two days, and her habit of walking the corridors at 7:45 a.m. with a small enamel bowl of sugar crystals.</mark> The sugar, she used to say, was for the girls who had come to school without breakfast, which — in her early years — was most of them.</p>
+        <p>By the time she retired in 1989 the school had sent three of its students to medical college, two to engineering, and one — the daughter of a widow who sold flowers outside Shaniwarwada — to the Indian Foreign Service.</p>
+        <p>Shanta Bai died in 2014. The school, now rebuilt, still keeps her green register in the principal's office. <mark class="dev" data-d="Closing placement in time">It is, the current headmistress likes to point out, the oldest living document in a building otherwise made of concrete.</mark></p>
+        <span class="wc">word count · 364 · devices · direct quotation, anchored detail, third-person researched register, closing placement in time</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 15. TRAVELOGUE -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Travelogue</h3>
+      <p class="whenpick">Pick when the prompt is a place and you can braid description with reflection.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>First-person journey narrative</li>
+          <li>Specific route — a road, not "a country"</li>
+          <li>Sensory reportage of people and place</li>
+          <li>Cultural detail observed, not judged</li>
+          <li>Reflection braided with description</li>
+          <li>A small incident stands in for the whole trip</li>
+          <li>Closes on arrival or departure, not summary</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">Three Days on the Konkan Railway</span>
+        <span class="byline">travelogue · 360 words</span>
+        <p>We boarded the Mandovi Express at Dadar on a Monday morning when the city was still arguing with itself about whether the monsoon had actually begun. It had; it had not; it was Mumbai, and consensus would take until Thursday.</p>
+        <p>The Konkan Railway is not, technically, the most scenic line in India. It is, however, the most <em>honest</em>. It does not pretend there is no tunnel. It goes through. Ninety-two tunnels between Roha and Thokur, and in each of them the carriage falls into a dark so total that for a second you forget which window is which and which country you are from. <mark class="dev" data-d="Metaphor">The tunnels are a kind of punctuation — commas, mostly, the railway apologising for its own enthusiasm about the view.</mark></p>
+        <p>By Ratnagiri the light had changed. The light on the Konkan changes the way a mood changes — without announcement, completely. <mark class="dev" data-d="Sensory imagery">The fields went from green to the specific green of wet lace, and the smell from the windows was cashew, rain and diesel in equal, accidental parts.</mark></p>
+        <p>I shared my compartment with an elderly couple from Madgaon who had been travelling this line for forty-one years. They had, between them, one flask of tea, one shawl, and a system for sharing the window that was older than my parents' marriage. The husband unfolded a newspaper the size of a small tablecloth. The wife — without looking — corrected his grip on it. They did not speak for the entire stretch between Chiplun and Kankavali, and I understood, slowly, that this was not silence. This was a very long, very calm sentence I had simply not been taught to read.</p>
+        <p>We arrived at Madgaon three hours late, which the Konkan Railway considers punctual. <mark class="dev" data-d="Reflective aside">Later I would try to explain this trip to a friend in Delhi, and I would find that the thing that had mattered most had not been any of the views, nor the tunnels, nor the cashew-rain-diesel air, but that single, unspoken, forty-one-year-old newspaper.</mark></p>
+        <p>I got off the train. The couple, naturally, did not.</p>
+        <span class="wc">word count · 360 · devices · metaphor, sensory imagery, reflective aside</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- Compact cards: remaining literary -->
+  <h4>Also on the sheet — conventions at a glance</h4>
+  <div class="compact">
+    <div class="card"><h4>Adventure</h4><ul><li>External conflict dominates internal</li><li>Geographic movement drives plot</li><li>Obstacles escalate in scale</li><li>Unlikely ally or mentor figure</li></ul></div>
+    <div class="card"><h4>Folklore</h4><ul><li>Oral-style repetition and rhythm</li><li>Rooted in a specific community</li><li>Moral or cautionary function</li><li>Named archetypes, unnamed narrator</li></ul></div>
+    <div class="card"><h4>Film Review</h4><ul><li>Hook, summary, verdict — no spoilers</li><li>Evaluates craft (direction, score, performance)</li><li>Rating or recommendation line</li><li>Voice can be playful or serious, not both</li></ul></div>
+    <div class="card"><h4>Interview (literary)</h4><ul><li>Italicised interviewer intro</li><li>Q&amp;A form with characterising answers</li><li>Subject's voice dominates</li><li>One memorable "headline" quote</li></ul></div>
+    <div class="card"><h4>Autobiography</h4><ul><li>First-person, retrospective</li><li>Life told in scenes, not summary</li><li>Balance of ego and honesty</li><li>A defining turning-point</li></ul></div>
+    <div class="card"><h4>Pastiche</h4><ul><li>Imitates a known style respectfully</li><li>Borrowed rhythm, diction, tics</li><li>Not parody — admiration, not mockery</li><li>Signals the source without naming it</li></ul></div>
+    <div class="card"><h4>Parody</h4><ul><li>Exaggerates the original's quirks</li><li>Tone is affectionately mocking</li><li>Reader must know the target</li><li>Humour in the mismatch</li></ul></div>
+    <div class="card"><h4>Debate</h4><ul><li>Clear proposition, stated early</li><li>Three structured arguments with evidence</li><li>Anticipation and rebuttal of counter</li><li>Rhetorical devices — tricolon, antithesis</li></ul></div>
+    <div class="card"><h4>Graphic Novel</h4><ul><li>Panels described in prose (scene, action)</li><li>Speech balloons &amp; thought balloons distinct</li><li>Captions for time and place</li><li>Visual motifs that recur</li></ul></div>
+    <div class="card"><h4>Book Review</h4><ul><li>Genre, premise, one-line verdict</li><li>Quotes used sparingly to show style</li><li>Context — author's body of work</li><li>Reader-focused recommendation</li></ul></div>
+  </div>
+</section>
+
+
+<!-- ============ II. NON-LITERARY ============ -->
+<section id="nonlit">
+  <div class="section-head">
+    <div class="num">II.</div>
+    <div>
+      <div class="kicker">Section Two</div>
+      <h2>Non-Literary Text Types</h2>
+    </div>
+  </div>
+  <p class="lead">Non-literary writing is judged by register, purpose and audience. Every sample below holds a clear voice and at least four deliberate devices — because Criterion D rewards the ones who decorate with intention.</p>
+
+  <!-- 8. INFORMAL LETTER -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Sec 2b</span>
+      <h3>Informal Letter</h3>
+      <p class="whenpick">Most likely prompt in Sec&nbsp;2b — "Write a letter to a friend about…".</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Sender's address top-right, no name, just address</li>
+          <li>Date below the address</li>
+          <li>Greeting: "Dear [first name]," (casual tone)</li>
+          <li>Warm, conversational voice — contractions, slang, humour allowed</li>
+          <li>Organised in paragraphs: opening pleasantries, body, closing</li>
+          <li>Personal anecdotes, opinions, feelings</li>
+          <li>Sign-off: "Love," / "Yours," / "Take care," + first name</li>
+          <li>May include questions to the recipient</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <div class="addr"><p>42 Jayanagar 4th Block</p><p>Bangalore 560041</p><p style="margin-top:10px">15th April 2026</p></div>
+        <p>Dear Anika,</p>
+        <p><mark class="dev" data-d="Rhetorical question">How are you? I've been meaning to write for ages but you know how it is</mark> — school, cricket practice, Amma's insistence that I "socialise with real humans instead of a screen". She says hi, by the way. She also says you're too thin, which she says about literally everyone, so don't take it personally.</p>
+        <p>Anyway, I'm writing because <mark class="dev" data-d="Hyperbole">something incredible happened last week. We had our school's annual cultural fest, and I actually performed on stage for the first time.</mark> I know — me! The person who once forgot their own name during a class presentation. But our drama teacher, Ms. Rao, basically guilt-tripped the entire class into participating, and somehow I ended up playing the lead in a one-act play about a boy who hates his parents but his parents want him to be an engineer. <mark class="dev" data-d="Irony">The irony was not lost on me, considering my own situation.</mark></p>
+        <p>Walking on stage felt like stepping off a cliff and discovering, halfway down, that you could fly. <mark class="dev" data-d="Simile">The audience laughed at the right parts (and a few wrong ones — I may have tripped on a prop chapati)</mark>. But when it ended, people actually clapped. Like, properly clapped. Appa was in the front row, and he did that thing where he pretends he has something in his eye.</p>
+        <p>The weird part, Anika, is that I'm still not sure I want to <em>do</em> drama. I just know I don't want the version of me that hides in the wings. Does that make sense? You always understood this stuff better than I did.</p>
+        <p>Write back and tell me everything — the new school, the new flatmates, whether Delhi has forgiven you for being a Bangalore person. Also send me the recipe your mother uses for that horrible green chutney I pretended to like.</p>
+        <p>Miss you, genuinely. The chat group isn't the same without your terrible puns.</p>
+        <p class="signoff">Love,<br>Nandan</p>
+        <p style="font-size:12px;color:var(--ink-2);font-style:italic">P.S. Amma wants to know if your mother received her Diwali card. I suspect she did not.</p>
+        <span class="wc">word count · 361 · devices · rhetorical question, hyperbole, irony, simile</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 9. FORMAL LETTER -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Sec 2b</span>
+      <h3>Formal Letter</h3>
+      <p class="whenpick">Pick when the audience is an authority — principal, editor, municipal officer, company.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Sender's full address top-left or top-right</li>
+          <li>Recipient's title and address below</li>
+          <li>Date in full form</li>
+          <li>Formal salutation: "Dear Sir / Madam,"</li>
+          <li>Clear subject line or "Re:" statement</li>
+          <li>Impersonal, polite register — no contractions or slang</li>
+          <li>Three-part body: reason, detail, request</li>
+          <li>Sign-off: "Yours faithfully," (name unknown) / "Yours sincerely," (name known)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <div class="addr" style="text-align:left">
+          <p>Nandan Subramanian</p>
+          <p>Class 10 · St. Xavier's School</p>
+          <p>Koramangala, Bangalore 560034</p>
+          <p style="margin-top:10px">15 April 2026</p>
+          <p style="margin-top:10px">The Commissioner<br>Bruhat Bengaluru Mahanagara Palike<br>N. R. Square, Bangalore 560002</p>
+          <p style="margin-top:10px"><b>Subject: Request for a pedestrian crossing outside St. Xavier's School, Koramangala</b></p>
+        </div>
+        <p>Dear Sir / Madam,</p>
+        <p>I am writing to you, with respect but also with genuine concern, on behalf of approximately nine hundred students and two dozen staff members at St. Xavier's School, regarding the stretch of 80 Feet Road that lies directly outside our main gate.</p>
+        <p>Over the past academic year, there have been three reported incidents in which students were narrowly missed by speeding vehicles while attempting to cross the road to reach the bus stand opposite. <mark class="dev" data-d="Formal register">In the absence of a designated pedestrian crossing or a functioning traffic signal, children as young as six are currently obliged to negotiate four lanes of traffic during peak commuting hours.</mark> That we have, so far, avoided a more serious outcome is, in my view, not a sign of safety but of luck — and luck is not a policy a civic authority can reasonably depend upon.</p>
+        <p>I therefore respectfully request the Corporation to consider the following three measures. First, the installation of a zebra crossing aligned with our main gate, supported by rumble strips approximately twenty metres upstream in both directions. <mark class="dev" data-d="Parallelism">Second, the deployment of a traffic warden during the school's opening and closing hours. Third, the placement of a clearly visible "School Ahead" signage on both approaches.</mark></p>
+        <p>I understand, of course, that the Corporation receives a great volume of such requests, and that every one of them is pressing to the person writing it. I would only add that, <mark class="dev" data-d="Antithesis">while other applications may concern inconvenience, ours concerns the daily safety of children</mark>, and the two are not comparable. I have attached, for your reference, a signed petition from the school's parent body and photographs of the stretch in question taken at 8:00 a.m. on four consecutive school days.</p>
+        <p>I would be grateful for any acknowledgement of this request, and I remain available should the Corporation's officers wish to inspect the site in the presence of our principal.</p>
+        <p>Yours faithfully,</p>
+        <p>Nandan Subramanian<br><span style="font-size:12px;color:var(--ink-2)">Class Representative, Grade 10</span></p>
+        <span class="wc">word count · 378 · devices · formal register, parallelism, antithesis, subject-line convention</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 10. LETTER TO EDITOR -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Sec 2b</span>
+      <h3>Letter to the Editor</h3>
+      <p class="whenpick">Pick when the prompt is an <em>issue</em> in the public sphere. Shorter and sharper than a formal letter.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Addressed to "The Editor," with newspaper name</li>
+          <li>Clear subject line stating the issue</li>
+          <li>Hook opening — reference a recent article or event</li>
+          <li>Strong, evidenced argument — one position, held firmly</li>
+          <li>Public-spirited voice, not personal grievance</li>
+          <li>Call to action in the closing paragraph</li>
+          <li>Sign-off with name, city and "pin code"</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <div class="addr" style="text-align:left">
+          <p>The Editor<br><em>The Hindu</em><br>Chennai</p>
+          <p style="margin-top:8px">15 April 2026</p>
+          <p style="margin-top:8px"><b>Subject: Our silent surrender to the screen</b></p>
+        </div>
+        <p>Sir,</p>
+        <p>With reference to your thoughtful editorial of 12 April on rising screen time among adolescents, I write as a fifteen-year-old student who has, for the past three years, lived inside the problem you describe.</p>
+        <p><mark class="dev" data-d="Anaphora">We were told the phone would connect us. We were told it would educate us. We were told it would, somehow, give us back the time it quietly began to take.</mark> The truth, as even the most screen-weary of my classmates will privately admit, is that we now spend more time looking at our devices than at each other, and our generation has developed a strange new posture — shoulders rounded, eyes down, as if in perpetual apology to our own feet.</p>
+        <p>The response from adults has been, in the main, either panicked prohibition or weary resignation. Both are wrong. Prohibition treats us as the problem; resignation treats us as casualties. <mark class="dev" data-d="Antithesis">We are neither. We are, at worst, under-equipped, and at best, the first generation capable of naming what we are losing.</mark></p>
+        <p>What we need is not another lecture but a partnership. Schools should teach, as a formal subject, the craft of attention — the same way they teach grammar, or swimming, or the periodic table. Families should model, not merely mandate, the absence of the phone at the dinner table. And the press — your press — could do its part by covering the students who are already doing this work, instead of only the ones who are drowning.</p>
+        <p><mark class="dev" data-d="Rhetorical question">What is at stake, really, if we do not?</mark> Not just grades or eyesight, but the quieter inheritance every generation is supposed to leave the next — the habit of noticing. A generation that no longer notices is a generation that will, eventually, <mark class="dev" data-d="Metaphor">inherit a world whose windows it has forgotten how to open.</mark></p>
+        <p>Yours sincerely,</p>
+        <p>Nandan Subramanian<br><span style="font-size:12px;color:var(--ink-2)">Koramangala, Bangalore 560034</span></p>
+        <span class="wc">word count · 362 · devices · anaphora, antithesis, rhetorical question, metaphor</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 11. SPEECH -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Sec 2b</span>
+      <h3>Persuasive Speech</h3>
+      <p class="whenpick">Pick when you can hear yourself at a lectern. High-ceiling for Criterion&nbsp;D — devices stack here.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Opening address: "Good morning, respected…"</li>
+          <li>Hook — anecdote, statistic, or bold claim</li>
+          <li>Clear three-part argument (ethos, pathos, logos)</li>
+          <li>Rhetorical triad, anaphora, rhetorical question</li>
+          <li>Inclusive pronouns — "we", "our", "us"</li>
+          <li>Call to action in the final third</li>
+          <li>Resonant closing line; thank the audience</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">"The Classroom We Built Ourselves"</span>
+        <span class="byline">speech · 368 words</span>
+        <p>Good morning, respected principal, teachers, and — most importantly this morning — fellow students.</p>
+        <p>Last Monday, in the fifteen minutes before our geography class, I watched something I think none of us fully noticed. Arjun was explaining coordinates to Fatima. Fatima was explaining the Cold War, back to Arjun, at the same time. Neither of them had been assigned to teach anyone. They were simply doing, in that small, unsupervised fifteen minutes, what we claim the rest of the school day is designed for — learning, freely, because they wanted to.</p>
+        <p>I stand here today to ask a simple question, and a difficult one. <mark class="dev" data-d="Rhetorical question">If the best learning in this school is already happening in the corridors, why are we still pretending it happens only in the classrooms?</mark></p>
+        <p>I want us to build something new. Not an app. Not a committee. A single, unscheduled half-hour, three times a week, during which any student can teach any other student anything they are good at. <mark class="dev" data-d="Tricolon">No grades. No teachers. No report to write afterwards.</mark> Just us, in rooms of our choosing, doing for each other what Arjun and Fatima did for each other, without being asked.</p>
+        <p><mark class="dev" data-d="Anaphora">Some will say we are too young. Some will say we will waste the time. Some will say our teachers already do this better.</mark> To the first I say: age is not a qualification, attention is. To the second I say: we waste more time in a single unread WhatsApp group than this plan could ever cost us. And to the third — with deep respect to every teacher in this room — I say that the best among you became teachers because someone, once, taught you like this first.</p>
+        <p>We are the generation told constantly that we <em>will</em> change the world. I am tired of the future tense. Let us begin this Wednesday. Thirty minutes. Two classrooms. Open doors.</p>
+        <p><mark class="dev" data-d="Metaphor">A school is not a building. It is a conversation that happens to have walls around it.</mark> Let us, just for thirty minutes, take down a wall.</p>
+        <p>Thank you.</p>
+        <span class="wc">word count · 368 · devices · rhetorical question, tricolon, anaphora, metaphor</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 12. BLOG -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Sec 2b</span>
+      <h3>Blog Post</h3>
+      <p class="whenpick">Pick when the prompt invites opinion with personality. Lower formality, higher voice.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Catchy, often playful title</li>
+          <li>Author byline + date</li>
+          <li>Conversational voice — second person allowed</li>
+          <li>Short paragraphs, subheadings if needed</li>
+          <li>Hook opening — a scene, question, or confession</li>
+          <li>Personal anecdote braided with a wider claim</li>
+          <li>Call to engage — comments, share, question at the end</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">In Defence of the Boring Hour</span>
+        <span class="byline">posted by Nandan · 15 April 2026 · 4 min read</span>
+        <p>Here's a confession. Last Sunday, between two and three in the afternoon, I did absolutely nothing. I didn't scroll. I didn't watch. I didn't even, if we're being technical, <em>think</em>. I sat on the cane chair on our balcony and watched a crow argue with a plastic bag. That was the whole hour.</p>
+        <p>And I have to tell you — it was, annoyingly, one of the best hours of my week.</p>
+        <p>I know how that sounds. I know my generation is not supposed to admit to boredom the way earlier generations were not supposed to admit to sadness. <mark class="dev" data-d="Irony">Boredom, we've been told, is the disease optimisation was invented to cure.</mark> Every app on my phone is engineered, by people far cleverer and far richer than me, to ensure that I am never, not even for eleven seconds, alone with my own uninterrupted brain.</p>
+        <p>But here is what I noticed, sitting on that cane chair. <mark class="dev" data-d="Anaphora">Ideas came back. Feelings I had been outrunning caught up. A problem from school arranged itself, without my help, into a shape I could actually solve.</mark> The boring hour, it turns out, is not empty. It is a room your mind has been trying to get into all week, and every notification is a locked door.</p>
+        <p>So here is my small, unfashionable argument. We should be scheduling boredom the way we schedule everything else. Not meditation — meditation has its own apps now, which I think somewhat defeats the point. <mark class="dev" data-d="Simile">Just boredom: rough, unglamorous, like a walk with no destination.</mark> Call it the Boring Hour. Put it in your calendar if you must. Put it between two and three on a Sunday afternoon. Tell the algorithm you are not available.</p>
+        <p>I am not promising you enlightenment. I am promising you a crow, a plastic bag, and possibly — possibly — the return of your own thoughts. <mark class="dev" data-d="Direct address">What would you do with one boring hour? Tell me in the comments. I'll read them, eventually, after my next one.</mark></p>
+        <span class="wc">word count · 364 · devices · irony, anaphora, simile, direct address</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 13. PROPOSAL -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Sec 2b</span>
+      <h3>Proposal</h3>
+      <p class="whenpick">Pick when the prompt asks you to <em>propose</em> or <em>suggest</em> a change. Formal but structured.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Title and "Proposal prepared by…" line</li>
+          <li>Structured headings: Introduction, Rationale, Plan, Resources, Conclusion</li>
+          <li>Neutral, evidence-led register — almost never first-person plural feelings</li>
+          <li>Bullets allowed but used with restraint</li>
+          <li>Numbers, timelines, responsibilities named explicitly</li>
+          <li>Anticipates objections and answers them</li>
+          <li>Closes with a concrete request for approval</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">Proposal: A Student-Run Lending Library for St. Xavier's School</span>
+        <span class="byline">prepared by Nandan Subramanian · Class 10 · 15 April 2026</span>
+        <p><b>1. Introduction.</b> This proposal recommends the establishment of a student-run lending library operating out of the existing, underused space adjacent to the Grade 10 corridor, to begin in the first week of the 2026–27 academic year.</p>
+        <p><b>2. Rationale.</b> The school library currently holds approximately 6,400 books; of these, an internal audit conducted last month found that 2,100 have not been borrowed in the last three years. <mark class="dev" data-d="Parallelism">Books unread are not a collection. They are a storeroom.</mark> At the same time, a survey of 187 students across grades 6–10 revealed that 62% would read more if the borrowing process were faster, friendlier and student-operated.</p>
+        <p><b>3. Plan of Implementation.</b> The proposed library would be managed by a rotating committee of six students, two per grade from grades 8, 9 and 10, supervised remotely by the English department. <mark class="dev" data-d="Tricolon">Books would be lent for seven days, renewed once on request, and returned by self-check-in to avoid staff workload.</mark> A simple cardboard register — yes, paper — would log every transaction. The committee would curate weekly "shelf of the week" recommendations to drive engagement.</p>
+        <p><b>4. Resources Required.</b> The proposal is deliberately low-cost. Existing shelving would be relocated from the main library. The only new expense — approximately ₹2,400 — would cover the printing of membership cards and the repair of three damaged shelves. No additional staff time is requested.</p>
+        <p><b>5. Anticipated Objections.</b> Some may worry about books being lost or misused. In response, the committee would adopt a three-strike system and publish monthly accounts. <mark class="dev" data-d="Antithesis">Others may argue that a student-run library is less reliable than a staff-run one; in fact, student involvement increases reliability, because ownership creates care in a way that instruction rarely does.</mark></p>
+        <p><b>6. Conclusion.</b> With the committee's approval, the lending library can be operational within six weeks at a cost lower than a single school assembly. I respectfully request permission to present this proposal in full at the next Student Council meeting and to begin the pilot phase by 1 June 2026.</p>
+        <span class="wc">word count · 387 · devices · parallelism, tricolon, antithesis, structured register</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 14. OPINION COLUMN -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Sec 2b / Paper 1</span>
+      <h3>Opinion Column / Editorial</h3>
+      <p class="whenpick">Between blog and Letter to the Editor: serious tone, personal voice, public argument.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Headline that takes a position</li>
+          <li>Byline and publication / date</li>
+          <li>Hook — news peg or anecdote</li>
+          <li>Clear thesis stated early</li>
+          <li>Evidence braided with voice — not dry</li>
+          <li>Acknowledges counter-argument before dismissing it</li>
+          <li>Closing image or provocation, not a summary</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">Stop Calling It a Phase</span>
+        <span class="byline">opinion · Nandan Subramanian · 15 April 2026</span>
+        <p>Every generation of adolescents, at some point, is informed by its elders that what it feels is "a phase". The word is meant to comfort. It does almost the opposite. <mark class="dev" data-d="Metaphor">"A phase" tells a young person that their inner weather is a kind of fog that will burn off — which, if you are currently standing inside it, is not a forecast, it is a dismissal.</mark></p>
+        <p>I write this not as a protest but as a plea for more accurate language. <mark class="dev" data-d="Antithesis">A phase implies something one is merely passing through. Adolescence is not a corridor; it is a construction site.</mark> What is built here, badly or well, is lived in for decades. The moods are not the weather; they are the foundation being poured.</p>
+        <p>Consider the friend who told me last term, between one mouthful of maggi and another, that she had stopped believing her own ambitions. I could have said, as many adults did when she eventually told them, "It is just a phase." But what she described was not a phase. It was the specific, gradual surrender of a fifteen-year-old's relationship with her own future — and surrenders, once practised, become habits.</p>
+        <p>Of course the adults who say these things mean well. <mark class="dev" data-d="Concession">I am not accusing my parents, or yours, of cruelty; I am accusing all of us, collectively, of a vocabulary that has run out.</mark> We do not yet have good words, in English or in Kannada or in Hindi, for the difference between a passing low mood and a slow structural one. In the absence of those words, we reach for the nearest dismissive noun.</p>
+        <p>What would I like instead? <mark class="dev" data-d="Rhetorical question">Not much, really — only that the next time a teenager tells you they are tired in a way that does not sound like tiredness, you say, "Tell me more about that," and mean it.</mark></p>
+        <p>The fog is real. The fog is also information. <mark class="dev" data-d="Aphorism">Listen long enough and the fog begins to name itself.</mark></p>
+        <span class="wc">word count · 373 · devices · metaphor, antithesis, concession, rhetorical question, aphorism</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 15. NEWS REPORT -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero · Paper 1 / Sec 2b</span>
+      <h3>News Report</h3>
+      <p class="whenpick">Pick when the prompt is factual — an event, an incident, a discovery. Inverted-pyramid structure.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Headline: factual, capital-case, no opinion</li>
+          <li>Byline, dateline (PLACE, Date — )</li>
+          <li>Lead paragraph answers 5Ws + H</li>
+          <li>Inverted pyramid: most important first, background last</li>
+          <li>Short paragraphs, one idea each</li>
+          <li>Quotes from at least two named sources</li>
+          <li>Neutral register — no first person, no adjectives of opinion</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">STUDENTS LAUNCH CITY'S FIRST SCHOOL-RUN LENDING LIBRARY</span>
+        <span class="byline">By Staff Reporter · Bangalore Chronicle · 15 April 2026</span>
+        <p><b>BANGALORE, 15 April</b> — A group of sixteen students at St. Xavier's School in Koramangala has launched what organisers are calling the city's first fully student-run lending library, opening its doors to members from grades 6 to 10 on Monday morning.</p>
+        <p>The library, housed in a 320 square-foot room previously used as a storage area, contains approximately 2,100 titles drawn from the school's existing collection, and operates on a self-check-in basis with no staff oversight.</p>
+        <p>"We were not trying to replace the main library," said Nandan Subramanian, a Grade 10 student and the project's coordinator. "We were trying to prove that books get read when students are the ones handing them out."</p>
+        <p>According to an internal survey conducted last month, sixty-two per cent of surveyed students said they would read more if the borrowing process were faster and run by their peers. On its first morning, the library recorded 94 transactions within forty minutes — a figure the organisers said had "exceeded every projection".</p>
+        <p>The school's principal, Ms. Shobha Menon, described the initiative as "the kind of student-led idea that a school exists to enable". <mark class="dev" data-d="Direct quote + attribution">"They asked for permission, they wrote a proposal, they budgeted under three thousand rupees, and they delivered on time," she said. "The teaching profession could learn from that discipline."</mark></p>
+        <p>The library committee comprises two students from each of grades 8, 9 and 10, with the English department acting in a remote advisory role. Books are lent for seven days and may be renewed once. A cardboard register, rather than a digital system, logs all transactions — a choice Mr. Subramanian described as "deliberate minimalism".</p>
+        <p>The project was funded by a one-time grant of ₹2,400 from the Parent Teachers' Association, which covered the printing of membership cards and minor shelf repairs. <mark class="dev" data-d="Statistic">All 187 members registered on the opening day were students of the school; no external users are currently permitted.</mark></p>
+        <p>The committee said it intended to publish its first monthly report, including a list of the most-borrowed titles, in the school newsletter dated 15 May. Similar models, Mr. Subramanian added, <mark class="dev" data-d="Reported speech">had been requested by at least two neighbouring schools, and discussions with them would begin "once the pilot phase was stable"</mark>.</p>
+        <p><mark class="dev" data-d="Inverted pyramid">The school has been operating in Koramangala since 1964 and has approximately 1,800 students on its rolls.</mark></p>
+        <span class="wc">word count · 396 · devices · direct quotation, statistic, reported speech, inverted pyramid</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 16. EMAIL -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Formal Email</h3>
+      <p class="whenpick">Pick when the prompt is transactional — a request, a query, a follow-up — to an institution or stranger.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Clear, specific subject line</li>
+          <li>Greeting matching register</li>
+          <li>One purpose per email — no wandering</li>
+          <li>Short paragraphs, scannable</li>
+          <li>Polite but direct — no filler</li>
+          <li>Explicit call to action / next step</li>
+          <li>Professional sign-off with contact line</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <p style="font-family:'Inter',sans-serif;font-size:12.5px;color:var(--ink-2);border-bottom:1px dashed var(--rule);padding-bottom:10px;margin-bottom:14px;font-style:normal">
+          <b>From:</b> nandan.s@xavierskoramangala.edu.in<br>
+          <b>To:</b> outreach@bangaloreliteraryfestival.org<br>
+          <b>Cc:</b> ms.menon@xavierskoramangala.edu.in<br>
+          <b>Subject:</b> Student volunteer application — BLF 2026, 12–14 June
+        </p>
+        <p>Dear Festival Coordinator,</p>
+        <p>I am writing to apply, on behalf of a group of twelve senior students from St. Xavier's School, Koramangala, for the volunteer programme announced for this year's Bangalore Literary Festival from 12 to 14 June. We came across the announcement on the festival's website on Monday evening, and my principal, Ms. Shobha Menon (copied here), has kindly authorised the application.</p>
+        <p><mark class="dev" data-d="Direct structure">Our group is made up of students currently in Grade 10, all of whom are active members of the school's English Literary Club and have, over the past two years, helped organise three smaller in-school reading events.</mark> We would be grateful for the opportunity to contribute in any of the following ways:</p>
+        <p style="padding-left:18px">
+          · registration-desk support on opening day,<br>
+          · session runners between venues during the three days,<br>
+          · note-taking assistants for the children's-literature panels.
+        </p>
+        <p>We are particularly interested in the children's-literature track, as six members of our group have been running a weekend reading circle for younger students in our neighbourhood and would value the chance to observe how professionals structure such sessions. <mark class="dev" data-d="Anticipating objection">We recognise, of course, that volunteer slots are limited, and we are happy to be assigned wherever we are most needed rather than only to our first preference.</mark></p>
+        <p>If our application is shortlisted, I would be glad to share a brief list of the students involved, along with a consent letter from each of their parents. <mark class="dev" data-d="Clear next step">Could you let me know, at your convenience, whether a single point of contact from our side would be preferred, or whether each volunteer should register individually on the festival's portal?</mark></p>
+        <p>Thank you for considering our request, and for the work the festival does each year for readers in this city. <mark class="dev" data-d="Professional close">We look forward to your response and to the possibility of being of use.</mark></p>
+        <p>Yours sincerely,</p>
+        <p>Nandan Subramanian<br><span style="font-size:12px;color:var(--ink-2)">Grade 10 · St. Xavier's School, Koramangala · +91-98XXX-XXXXX</span></p>
+        <span class="wc">word count · 368 · devices · structured request, anticipating objection, clear next step, professional close</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 17. ADVERTISEMENT -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Advertisement (Print)</h3>
+      <p class="whenpick">Pick when the prompt sells a product, event or idea. Short, punchy, visual-first.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Headline that stops the eye</li>
+          <li>Hook or opening question / claim</li>
+          <li>Unique selling point stated plainly</li>
+          <li>Imperative verbs, sentence fragments</li>
+          <li>Alliteration, rhyme or pun — memorability</li>
+          <li>Clear call to action with when / where / how</li>
+          <li>Slogan and brand name repeated</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title" style="font-size:24px;text-transform:uppercase;letter-spacing:-0.02em">Put the Phone Down. Pick a Page Up.</span>
+        <span class="byline">print ad · The Koramangala Reading Room · 358 words</span>
+        <p style="font-family:'Fraunces',serif;font-weight:600;font-size:18px;font-style:italic;color:var(--amber)">Because the best thing on your feed this week was written three hundred years ago.</p>
+        <p>There is a room, ten minutes from where you are right now, <mark class="dev" data-d="Alliteration">stacked with stories, soaked in silence, and staffed by a single very kind librarian named Mrs. Fernandes.</mark> It has no Wi-Fi. It has no upsells. It has no algorithm deciding what you should want next.</p>
+        <p>It has, however, 11,400 books — and <em>every single one of them</em> is waiting to be yours for the afternoon.</p>
+        <p><b>Welcome to The Koramangala Reading Room.</b></p>
+        <p style="font-family:'Fraunces',serif;font-weight:600">Open every day, 9 a.m. to 9 p.m.<br>First visit free. Membership ₹400 a year. Students ₹200.</p>
+        <p><mark class="dev" data-d="Imperative verbs / tricolon">Borrow a book. Take a chair. Forget your charger on purpose.</mark></p>
+        <p>You will find, in our fiction section, the seventeen novels you keep meaning to read and a dozen you have never heard of, which will turn out to be better. You will find, in our poetry corner, the one poem you need this week — we cannot tell you which; that is the poem's job. <mark class="dev" data-d="Rhetorical question">When was the last time an app you pay for recommended something that <em>surprised</em> you?</mark></p>
+        <p>We also run:</p>
+        <p style="padding-left:18px;font-family:'Fraunces',serif">
+          · <b>Silent Sundays</b> — a two-hour no-phones reading slot with free filter coffee.<br>
+          · <b>Exchange Evenings</b> — bring a book you have finished, leave with one you haven't.<br>
+          · <b>The Children's Hour</b> — every Saturday at 4 p.m., stories read aloud by real, tired grown-ups.
+        </p>
+        <p><mark class="dev" data-d="Pun / wordplay">Your screen isn't going anywhere. Neither are we. But the difference is — we won't follow you home.</mark></p>
+        <p style="text-align:center;font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin-top:18px;padding:14px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)">The Koramangala Reading Room<br><span style="font-size:14px;font-weight:400;color:var(--ink-2)">2nd Cross, 6th Block · Near the old banyan · (080) 4123-XXXX</span></p>
+        <p style="text-align:center;font-style:italic;font-family:'Fraunces',serif;color:var(--amber);font-weight:600">Stories, shelves, silence. Since 1994.</p>
+        <span class="wc">word count · 358 · devices · alliteration, imperative tricolon, rhetorical question, pun / slogan</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 18. BROCHURE -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Brochure</h3>
+      <p class="whenpick">Pick when the prompt introduces a place, programme or organisation and needs panels, not paragraphs.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Main title + tagline on the cover panel</li>
+          <li>Headings for each internal panel</li>
+          <li>Bulleted features / benefits</li>
+          <li>"You"-address throughout</li>
+          <li>Short, scannable paragraphs</li>
+          <li>Contact details on the back panel</li>
+          <li>Call to action repeated at the close</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title" style="font-size:26px">Thirty-Six Days at Nandi</span>
+        <span class="byline">tri-fold brochure · The Nandi Hills Field School · 358 words</span>
+        <p style="font-family:'Fraunces',serif;font-style:italic;font-size:17px;color:var(--amber);font-weight:600">A summer programme for students who would rather hold a leaf than a screen.</p>
+        <p><b>PANEL ONE · Why Nandi?</b></p>
+        <p>Sixty kilometres north of Bangalore, and six hundred metres closer to the sky, <mark class="dev" data-d="Alliteration">Nandi holds more butterflies, more birdsong and more breathable mornings</mark> than any classroom we have ever built. For thirty-six days every summer, we hand those mornings to twenty-four students between the ages of fourteen and seventeen and ask one question: <em>what happens to curiosity when nothing is buzzing in your pocket?</em></p>
+        <p><b>PANEL TWO · What You Will Do</b></p>
+        <p>You will not be lectured. You will be <em>led outside</em>. Each day is built around three things:</p>
+        <p style="padding-left:18px">
+          · <b>A walk with a purpose</b> — mapping a stream, counting a bird species, drawing a leaf.<br>
+          · <b>A workshop with your hands</b> — pottery on Tuesday, bookbinding on Thursday, compost chemistry on Saturday.<br>
+          · <b>An hour with yourself</b> — no phones, no books, no instructions. Just a notebook and whatever the hour turns into.
+        </p>
+        <p><b>PANEL THREE · What You Will Leave With</b></p>
+        <p><mark class="dev" data-d="Parallelism">A field journal you are proud of. A friend you would not have chosen. A question you did not arrive with.</mark> And — this is written by a student who attended last year, not by us — a surprising, specific memory of what your own thinking sounds like when nothing is interrupting it.</p>
+        <p><b>PANEL FOUR · The Details</b></p>
+        <p>
+          · <b>Dates:</b> 2 May – 6 June 2026<br>
+          · <b>Cohort:</b> 24 students, mixed schools, ages 14–17<br>
+          · <b>Fees:</b> ₹28,000 all-inclusive · need-based scholarships available<br>
+          · <b>Apply by:</b> 15 April 2026, via our website
+        </p>
+        <p style="font-family:'Fraunces',serif;font-style:italic;color:var(--ink-2)"><mark class="dev" data-d="Reader-first "you"">You do not have to be sporty. You do not have to be outdoorsy. You only have to be willing to put the phone in the drawer for thirty-six mornings and find out what is left.</mark></p>
+        <p style="text-align:center;font-family:'Fraunces',serif;font-weight:600;border-top:1px solid var(--rule);padding-top:14px;margin-top:14px">
+          The Nandi Hills Field School<br>
+          <span style="font-size:13px;color:var(--ink-2);font-weight:400">nandifield.org · (080) 2888-XXXX · hello@nandifield.org</span>
+        </p>
+        <span class="wc">word count · 358 · devices · alliteration, parallelism, reader-first "you", structured panels</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 19. PRODUCT REVIEW -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Product Review</h3>
+      <p class="whenpick">Pick when the prompt asks you to evaluate — a gadget, a book, an app, a café.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Name + category + one-line verdict up top</li>
+          <li>Star rating or scale</li>
+          <li>Specs / facts early and brief</li>
+          <li>Pros and cons in balance — not a hit-piece</li>
+          <li>One vivid anecdote from actual use</li>
+          <li>Recommendation aimed at a specific buyer</li>
+          <li>Closing line: who it is, and isn't, for</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">The Pilot 'Metropolitan' Fountain Pen — Reviewed</span>
+        <span class="byline">product review · 359 words · ★★★★½ / 5</span>
+        <p style="font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:17px">The best first fountain pen a student can buy, as long as they can accept that "first" does not always mean "last".</p>
+        <p><b>The Basics.</b> Medium nib, converter included, metal barrel, around ₹1,250 in Bangalore as of April 2026. It comes in a small cardboard box that manages, against all odds, to feel slightly more ceremonial than it has any right to.</p>
+        <p><b>What's Good.</b> The Metropolitan writes the way a good student writes under exam pressure — steadily, without drama, and without ever once embarrassing you. <mark class="dev" data-d="Simile">The nib glides across paper with the unbothered confidence of a senior prefect on a Monday morning.</mark> After three weeks of daily use in my history notes, the cartridge had not skipped, leaked, or — more importantly — <em>sulked</em>. The weight is just on the heavy side of balanced, which sounds like a complaint but turns out to be a quiet kindness to anyone whose handwriting gets worse in the last fifteen minutes of a paper.</p>
+        <p><b>What's Not.</b> Two honest irritations. The cap, when posted onto the back of the barrel, makes the pen slightly top-heavy and throws off the balance it was otherwise so proud of. And the included converter holds, by my measurement, just under forty minutes of serious writing before it needs refilling — which, for a Criterion-A essay, is right at the edge of reasonable.</p>
+        <p><b>Use It In Real Life.</b> I took it into my half-yearly English paper. Three hours. Two sections. Somewhere in the middle of the Paper 2 essay, around the 240-word mark, <mark class="dev" data-d="Anecdote">I realised I had stopped thinking about the pen and started thinking about the sentence — which is, for a pen, the highest possible compliment.</mark></p>
+        <p><b>The Verdict.</b> <mark class="dev" data-d="Parallelism">Buy it if you are new to fountain pens and serious about your notes. Skip it if you already own three. Steal it, gently, from whoever you know who bought it and stopped using it</mark> — because in my experience, roughly half of them will have done exactly that.</p>
+        <p style="font-family:'Fraunces',serif;font-style:italic;color:var(--amber);font-weight:600;text-align:right">★★★★½ — <mark class="dev" data-d="Targeted recommendation">for the student who has outgrown the gel pen but has not yet met a Lamy.</mark></p>
+        <span class="wc">word count · 359 · devices · simile, anecdote, parallelism, targeted recommendation</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 20. FORMAL REPORT -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Formal Report</h3>
+      <p class="whenpick">Pick when the prompt asks you to <em>investigate</em> or <em>summarise findings</em>. Structured and impersonal.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Title, author, date up top</li>
+          <li>Numbered headings — 1. Introduction, 2. Findings, etc.</li>
+          <li>Executive summary before the body</li>
+          <li>Neutral, third-person, no contractions</li>
+          <li>Data presented with sources</li>
+          <li>Recommendations numbered and actionable</li>
+          <li>Closes with next-steps, not opinion</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">Report on the Use of the Senior Library Hour, 2025–26</span>
+        <span class="byline">prepared by N. Subramanian, Student Council · 15 April 2026 · 369 words</span>
+        <p><b>Executive Summary.</b> This report summarises findings from a six-week observation of the Senior Library Hour at St. Xavier's School. It concludes that, while the hour is well attended, it is significantly under-utilised for its stated purpose of independent reading, and proposes three adjustments to increase engagement without additional cost.</p>
+        <p><b>1. Introduction.</b> The Senior Library Hour was introduced in the 2024–25 academic year as a fifty-minute weekly slot during which students in grades 9 and 10 are expected to read independently in the main library. The purpose of this report is to assess whether the slot is being used as intended.</p>
+        <p><b>2. Methodology.</b> Observations were conducted by a team of four student volunteers across six consecutive Fridays from 28 February to 4 April 2026. For each session, the following were recorded: total attendance, number of students actively reading, number of students using mobile devices, and number of students in conversation. <mark class="dev" data-d="Neutral register">All data were recorded without intervention in the session.</mark></p>
+        <p><b>3. Findings.</b></p>
+        <p style="padding-left:18px">
+          3.1 Average attendance across the six weeks was 84 students, or 93% of the eligible cohort.<br>
+          3.2 Of those present, an average of 31 students (37%) were observed reading throughout the session.<br>
+          3.3 An average of 29 students (35%) were observed using mobile devices for non-reading purposes.<br>
+          3.4 The remaining 28% were observed to be either in quiet conversation or walking between the shelves.
+        </p>
+        <p><b>4. Analysis.</b> <mark class="dev" data-d="Passive voice">The data suggest that the library hour is being attended as a social obligation rather than used as a reading period. Mobile-device usage, rather than book-borrowing, accounts for the largest share of observed activity.</mark> The slot's original intent is therefore not currently being met.</p>
+        <p><b>5. Recommendations.</b></p>
+        <p style="padding-left:18px">
+          5.1 That mobile devices be collected at the library entrance for the duration of the hour.<br>
+          5.2 That a rotating "shelf of the week" be introduced, curated by grade-10 students.<br>
+          5.3 That attendance alone no longer count towards the library credit; active borrowing should be the measure.
+        </p>
+        <p><b>6. Conclusion.</b> <mark class="dev" data-d="Actionable close">The recommendations above require no additional staffing and can be implemented at the start of the 2026–27 academic year. A follow-up report is proposed for the end of the first term.</mark></p>
+        <span class="wc">word count · 369 · devices · neutral register, passive voice, numbered structure, actionable close</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 21. STATEMENT OF PURPOSE -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Statement of Purpose</h3>
+      <p class="whenpick">Pick when the prompt is a motivation letter or application essay. Personal but disciplined.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Hook that is specific, not clichéd</li>
+          <li>Evidence of interest over time — not a sudden passion</li>
+          <li>A defining moment or turning point</li>
+          <li>Skills shown, not listed</li>
+          <li>Specific fit with the programme / institution</li>
+          <li>Humility balanced with conviction</li>
+          <li>Forward-looking closing line</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">Statement of Purpose — Summer School in Environmental Writing</span>
+        <span class="byline">applicant: N. Subramanian · April 2026 · 366 words</span>
+        <p>I did not discover environmental writing in a library. I discovered it in the back of a BMTC bus, reading a laminated poster about lake pollution while stuck in traffic on Hosur Road. The poster was badly designed. Its statistics were three years out of date. <mark class="dev" data-d="Specific anecdotal hook">But one of the sentences — "our lakes are drowning above water" — did something to me that four years of school science had never quite managed.</mark> I went home that evening and began, for the first time, to notice the drains in my own neighbourhood.</p>
+        <p>That was three years ago. Since then, I have kept a notebook. It is not a diary; it is closer to a slow, stubborn survey. In it I record, one Saturday a month, what the water looks like at four particular points along the storm drain behind our apartment complex. I note the colour, the smell, the objects suspended in it, and — more usefully than I expected — the people who live within ten metres of it and what they believe is happening. <mark class="dev" data-d="Evidence of sustained interest">I am on the thirty-fourth entry.</mark></p>
+        <p>I am applying to this summer school not because I believe I already know how to write about the environment, but because I am beginning to understand how little my school has, so far, asked me to read on the subject. I want to learn what a good paragraph about a river looks like. <mark class="dev" data-d="Humility + conviction">I want to be told, kindly and without apology, which of my current sentences are lazy.</mark> I have read, with admiration and some frustration, the three pieces available on your website by previous participants, and the frustration is the important part: I would like to be a writer whose pieces are good enough to frustrate a later reader.</p>
+        <p>I bring, I think, two things. One is the notebook, which I would happily share. The other is the conviction — earned on a stationary bus — that the most useful environmental writing is not the kind that warns, but the kind that helps people <mark class="dev" data-d="Closing forward look">finally <em>notice</em> what has been in front of them, and then decide, together, what to do about it.</mark></p>
+        <span class="wc">word count · 366 · devices · specific anecdotal hook, sustained evidence, humility + conviction, forward-look close</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- 22. INSTRUCTIONAL -->
+  <article class="type">
+    <div class="meta-col">
+      <span class="tag">Hero</span>
+      <h3>Instructional Writing</h3>
+      <p class="whenpick">Pick when the prompt asks for a <em>how-to</em>. Clarity is the whole game.</p>
+      <div class="conventions">
+        <h5>Conventions</h5>
+        <ul>
+          <li>Title: "How to…"</li>
+          <li>Brief why-this-matters intro</li>
+          <li>"You will need" list before the steps</li>
+          <li>Numbered, imperative steps — one action each</li>
+          <li>Warnings and safety notes flagged visibly</li>
+          <li>Estimated time and difficulty</li>
+          <li>Troubleshooting or final check at the end</li>
+        </ul>
+      </div>
+    </div>
+    <div class="sample-col">
+      <div class="sample">
+        <span class="title">How to Revise for Your Final Exams Without Losing Your Mind</span>
+        <span class="byline">a 20-day guide · 361 words</span>
+        <p><b>Why this matters.</b> Most students revise the way they pack for a holiday — panicking in the last forty-eight hours and bringing far too many jumpers. This guide is not about working harder. It is about arranging the working so that your brain, your mood and your sleep all survive the twenty days ahead.</p>
+        <p><b>Time required.</b> 20 days · about 4 hours a day · plus full sleep, daily.<br>
+        <b>Difficulty.</b> Moderate — provided you start on the day you read this.</p>
+        <p><b>You will need.</b></p>
+        <p style="padding-left:18px">
+          · A paper calendar (not an app).<br>
+          · Past papers for every subject, printed.<br>
+          · A kitchen timer.<br>
+          · One friend you can call at 9 p.m. without explaining yourself.
+        </p>
+        <p><b>The Steps.</b></p>
+        <p><b>1.</b> <mark class="dev" data-d="Imperative verb">Split</mark> your twenty days into three blocks: eight days, eight days, four days. Call them <em>Learn</em>, <em>Practise</em>, <em>Polish</em>. Write these words on the calendar in pen, not pencil.</p>
+        <p><b>2.</b> During <em>Learn</em>, revise <em>concepts</em>. Do not attempt whole papers. Read, annotate, summarise. Two subjects a day, alternating.</p>
+        <p><b>3.</b> During <em>Practise</em>, attempt one timed past paper a day, in the morning. Mark it the same afternoon using the official mark scheme. <mark class="dev" data-d="Tricolon">No phone. No music. No mercy.</mark></p>
+        <p><b>4.</b> During <em>Polish</em>, do <em>nothing new</em>. Re-read your own summaries, re-read your corrected answers, re-read the mark schemes for the two papers you did worst on.</p>
+        <p><b>5.</b> Every evening, at 9 p.m., <mark class="dev" data-d="Parallel imperative">call the friend. Explain one concept you learned that day. Listen while they explain one back.</mark> This is not optional.</p>
+        <p><b>Warnings.</b></p>
+        <p style="padding-left:18px;font-family:'Fraunces',serif;font-style:italic;color:var(--amber)">
+          ⚠ Do not skip sleep. A six-hour night undoes a twelve-hour day.<br>
+          ⚠ Do not begin a new subject in the final four days. It is too late, and your brain knows it.
+        </p>
+        <p><b>Troubleshooting.</b> If you fall behind by a day, do <em>not</em> try to catch up by adding hours. Drop the lowest-weighted topic from your plan and keep your schedule intact. <mark class="dev" data-d="Reassuring close">A plan that bends is a plan that holds.</mark></p>
+        <span class="wc">word count · 361 · devices · imperative verbs, tricolon, parallel structure, reassuring close</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- Compact cards: remaining non-lit -->
+  <h4>Also on the sheet — conventions at a glance</h4>
+  <div class="compact">
+    <div class="card"><h4>Postcard</h4><ul><li>Extremely short — 3 to 5 sentences</li><li>Present-tense voice from location</li><li>Sensory snapshot, not summary</li><li>Address + greeting + sign-off</li></ul></div>
+    <div class="card"><h4>Leaflet</h4><ul><li>Single issue, single audience</li><li>Bold headline, short paragraphs</li><li>Visual hierarchy — headings and bullets</li><li>Urgency in closing line</li></ul></div>
+    <div class="card"><h4>Poster</h4><ul><li>Eye-catching title, minimal words</li><li>Strong verb in the hook</li><li>5Ws visually organised</li><li>Tagline or CTA footer</li></ul></div>
+    <div class="card"><h4>Infographic</h4><ul><li>Title + subtitle pair</li><li>Data grouped into sections</li><li>Icons and numbers do the talking</li><li>Source line at the bottom</li></ul></div>
+    <div class="card"><h4>Jingle</h4><ul><li>Rhyme and rhythm central</li><li>Brand name in the hook</li><li>Memorable, short — under 30 seconds</li><li>Punchline / CTA at the end</li></ul></div>
+    <div class="card"><h4>About-Us Page</h4><ul><li>Mission in a single sentence</li><li>Story of origin — brief, honest</li><li>Team bios with warmth</li><li>Call to connect / contact</li></ul></div>
+    <div class="card"><h4>About-Us Page</h4><ul><li>Mission in a single sentence</li><li>Story of origin — brief, honest</li><li>Team bios with warmth</li><li>Call to connect / contact</li></ul></div>
+    <div class="card"><h4>Podcast (script)</h4><ul><li>Cold open — hook in first 15 seconds</li><li>Host intro, episode thesis</li><li>Segments clearly marked</li><li>Outro + call to subscribe</li></ul></div>
+    <div class="card"><h4>Manifesto</h4><ul><li>Declarative, urgent register</li><li>Repetition ("We believe…")</li><li>Short, numbered principles</li><li>Invitation to join</li></ul></div>
+    <div class="card"><h4>Commercial Analysis</h4><ul><li>Identifies target audience</li><li>Analyses appeals (ethos, pathos, logos)</li><li>Comments on visual / audio elements</li><li>Evaluates effectiveness</li></ul></div>
+  </div>
+</section>
+
+
+<!-- ============ III. LITERARY DEVICES ============ -->
+<section id="devices">
+  <div class="section-head">
+    <div class="num">III.</div>
+    <div>
+      <div class="kicker">Section Three</div>
+      <h2>Literary Devices</h2>
+    </div>
+  </div>
+  <p class="lead">A device you can name is a device you can deploy. Every example below was written fresh — so that recognising them in an unseen text, and using them in your own, becomes a single habit.</p>
+
+  <div class="dev-group">Figurative</div>
+  <div class="devices">
+    <div class="dev-card"><div class="name">Simile</div><div class="def">Compares using <em>like</em> or <em>as</em>.</div><div class="ex">Her patience was like well water — deep, cold, and not always easy to reach.</div></div>
+    <div class="dev-card"><div class="name">Metaphor</div><div class="def">Says one thing <em>is</em> another.</div><div class="ex">The exam hall was a courtroom in which I was both witness and accused.</div></div>
+    <div class="dev-card"><div class="name">Personification</div><div class="def">Gives human qualities to the non-human.</div><div class="ex">The old fan in the corner coughed once and went back to its opinions.</div></div>
+    <div class="dev-card"><div class="name">Hyperbole</div><div class="def">Deliberate, obvious exaggeration.</div><div class="ex">I must have read that page six thousand times and it has never once read me back.</div></div>
+    <div class="dev-card"><div class="name">Symbolism</div><div class="def">An object that stands for an idea.</div><div class="ex">The green cycle, still leaning by the gate, had become the shape of his forgiveness.</div></div>
+    <div class="dev-card"><div class="name">Imagery</div><div class="def">Sensory detail that paints without explaining.</div><div class="ex">The kitchen smelled of cardamom and rain and the slow end of Sunday.</div></div>
+    <div class="dev-card"><div class="name">Oxymoron</div><div class="def">Two contradictory words joined deliberately.</div><div class="ex">It was a loud silence, the kind only teenagers perfect.</div></div>
+    <div class="dev-card"><div class="name">Pun</div><div class="def">Play on word with two meanings.</div><div class="ex">The mathematician's wife divorced him; she said he'd lost his <em>common denominators</em>.</div></div>
+  </div>
+
+  <div class="dev-group">Sound</div>
+  <div class="devices">
+    <div class="dev-card"><div class="name">Alliteration</div><div class="def">Repeated consonant at the start of nearby words.</div><div class="ex">The bakery breathed butter, bread and <em>belonging</em>.</div></div>
+    <div class="dev-card"><div class="name">Assonance</div><div class="def">Repeated vowel sound across nearby words.</div><div class="ex">The <em>slow</em> <em>boat</em> <em>rolled</em> into a <em>known</em> harbour.</div></div>
+    <div class="dev-card"><div class="name">Consonance</div><div class="def">Repeated consonant sound within or ending words.</div><div class="ex">A pitter-patter matter of fact afternoon.</div></div>
+    <div class="dev-card"><div class="name">Onomatopoeia</div><div class="def">Word imitates a sound.</div><div class="ex">The kettle <em>whistled</em>; the bread <em>crackled</em>; the day <em>clicked</em> on.</div></div>
+    <div class="dev-card"><div class="name">Sibilance</div><div class="def">Hissing sound pattern — s, sh, z.</div><div class="ex">Silver scales slipped across the slick stone floor.</div></div>
+    <div class="dev-card"><div class="name">Repetition</div><div class="def">Same word or phrase for emphasis.</div><div class="ex">I waited. I waited. I waited until waiting became a kind of address.</div></div>
+  </div>
+
+  <div class="dev-group">Structural &amp; Rhetorical</div>
+  <div class="devices">
+    <div class="dev-card"><div class="name">Anaphora</div><div class="def">Repetition at the start of successive clauses.</div><div class="ex">We rose early. We rose tired. We rose as if rising were itself a kind of answer.</div></div>
+    <div class="dev-card"><div class="name">Parallelism</div><div class="def">Matching grammatical structure across phrases.</div><div class="ex">To read is to listen; to write is to reply; to revise is to apologise.</div></div>
+    <div class="dev-card"><div class="name">Antithesis</div><div class="def">Contrasting ideas placed side by side.</div><div class="ex">We wanted silence, and were given only quiet.</div></div>
+    <div class="dev-card"><div class="name">Tricolon</div><div class="def">Three-part list with rising impact.</div><div class="ex">She came, she saw, she filed a detailed complaint.</div></div>
+    <div class="dev-card"><div class="name">Rhetorical Question</div><div class="def">A question posed for effect, not answer.</div><div class="ex">Is a home the building, or the argument you left in it?</div></div>
+    <div class="dev-card"><div class="name">Irony</div><div class="def">Gap between appearance and reality.</div><div class="ex">The fire-safety poster caught fire during the drill, as if to illustrate itself.</div></div>
+    <div class="dev-card"><div class="name">Foreshadowing</div><div class="def">Hint of what is to come.</div><div class="ex">The sky had the exact colour it had the evening Appa left; no one mentioned it.</div></div>
+    <div class="dev-card"><div class="name">Flashback</div><div class="def">A jump to an earlier moment.</div><div class="ex">Before the interview, before the tie, before the train, there had been a green cycle.</div></div>
+    <div class="dev-card"><div class="name">Asyndeton</div><div class="def">Conjunctions removed for urgency.</div><div class="ex">Books, pens, nerves, hope — she packed them all.</div></div>
+    <div class="dev-card"><div class="name">Polysyndeton</div><div class="def">Extra conjunctions added for rhythm.</div><div class="ex">And the rain and the bell and the bus and the boy were all suddenly one thing.</div></div>
+    <div class="dev-card"><div class="name">Euphemism</div><div class="def">Polite softening of a hard truth.</div><div class="ex">Appa was not unemployed; he was "between opportunities".</div></div>
+    <div class="dev-card"><div class="name">Idiom</div><div class="def">Fixed phrase with non-literal meaning.</div><div class="ex">After the results, Ma was walking on eggshells around the report card.</div></div>
+  </div>
+</section>
+
+
+<!-- ============ IV. GRAMMAR ============ -->
+<section id="grammar">
+  <div class="section-head">
+    <div class="num">IV.</div>
+    <div>
+      <div class="kicker">Section Four</div>
+      <h2>Advanced Grammatical Structures</h2>
+    </div>
+  </div>
+  <p class="lead">Criterion D asks whether your sentences earn their complexity. Each card shows a simple sentence <em>lifted</em> into a structure an examiner rewards — plus the trap that costs the mark.</p>
+
+  <div class="grammar">
+    <div class="gram-card">
+      <h5>Complex Sentence (subordination)</h5>
+      <div class="why">Why it scores · syntactic range</div>
+      <div class="ba">
+        <span class="b">The bell rang. Everyone left the classroom.</span>
+        <span class="a">As soon as the bell rang, everyone — even the ones who'd been dozing — left the classroom in a single, relieved wave.</span>
+      </div>
+      <div class="trap">Trap: dangling the subordinate clause from nothing ("<em>Running fast, the bell rang</em>" = the bell is running).</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Compound-Complex</h5>
+      <div class="why">Why it scores · controlled range</div>
+      <div class="ba">
+        <span class="b">I was tired. I finished the essay. Ma smiled.</span>
+        <span class="a">Although I was tired, I finished the essay; and when Ma finally smiled, I understood why.</span>
+      </div>
+      <div class="trap">Trap: comma splice. Use a semicolon or conjunction.</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Second Conditional</h5>
+      <div class="why">Why it scores · hypothetical precision</div>
+      <div class="ba">
+        <span class="b">If I have time, I will read more.</span>
+        <span class="a">If I had an hour of real quiet, I would read the way I used to — slowly, and on purpose.</span>
+      </div>
+      <div class="trap">Trap: mixing conditional types ("If I had time, I will read") reads like ESL-in-progress.</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Third Conditional</h5>
+      <div class="why">Why it scores · regret / counterfactual</div>
+      <div class="ba">
+        <span class="b">I didn't study. I failed.</span>
+        <span class="a">Had I studied the week before, rather than the morning of, I would have understood the paper instead of surviving it.</span>
+      </div>
+      <div class="trap">Trap: using "would have" in the <em>if</em>-clause. The <em>if</em>-clause takes "had + past participle".</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Passive Voice (intentional)</h5>
+      <div class="why">Why it scores · register, objectivity</div>
+      <div class="ba">
+        <span class="b">The committee made the decision on Monday.</span>
+        <span class="a">The decision was taken on Monday, and — in the way of such decisions — not discussed with those it most affected.</span>
+      </div>
+      <div class="trap">Trap: overusing passive in narrative writing. Reserve it for formal, reportorial, or deliberately evasive voices.</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Reported Speech</h5>
+      <div class="why">Why it scores · tense backshift</div>
+      <div class="ba">
+        <span class="b">"I will come tomorrow," he said.</span>
+        <span class="a">He said that he would come the following day, though something in his voice already suggested otherwise.</span>
+      </div>
+      <div class="trap">Trap: forgetting to backshift tense (will → would; tomorrow → the following day; this → that).</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Relative Clause (defining &amp; non-defining)</h5>
+      <div class="why">Why it scores · information density</div>
+      <div class="ba">
+        <span class="b">I lost the book. It was my favourite.</span>
+        <span class="a">I lost the book that had been my favourite for years, a paperback whose spine had finally given up on me.</span>
+      </div>
+      <div class="trap">Trap: using commas with defining clauses ("The girl, who wore red, left" ≠ "The girl who wore red left"). Comma changes the meaning.</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Participial Phrase</h5>
+      <div class="why">Why it scores · economy, movement</div>
+      <div class="ba">
+        <span class="b">She closed the door. She walked away.</span>
+        <span class="a">Closing the door behind her without a sound, she walked away as if she had not been there at all.</span>
+      </div>
+      <div class="trap">Trap: a dangling participle — the participial subject must match the main clause subject.</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Modal Stacking (subtle obligation)</h5>
+      <div class="why">Why it scores · register control</div>
+      <div class="ba">
+        <span class="b">You must study more.</span>
+        <span class="a">You might want to consider whether you could, if you tried, begin to study a little earlier — not as a rule, but as a kindness to your future self.</span>
+      </div>
+      <div class="trap">Trap: stacking modals without reason bloats the sentence. Use for politeness, not padding.</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Inversion (for emphasis)</h5>
+      <div class="why">Why it scores · literary register</div>
+      <div class="ba">
+        <span class="b">I have never seen a sky like that.</span>
+        <span class="a">Never had I seen a sky like that — bruise-blue at the edges, apricot at the throat, absolute overhead.</span>
+      </div>
+      <div class="trap">Trap: inversion needs a negative adverbial trigger (never, rarely, not once, hardly had I…).</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Subject–Verb Agreement (tricky)</h5>
+      <div class="why">Why it scores · accuracy under pressure</div>
+      <div class="ba">
+        <span class="b">Each of the students <em>are</em> tired.</span>
+        <span class="a">Each of the students <em>is</em> tired; the committee itself <em>is</em> equally exhausted.</span>
+      </div>
+      <div class="trap">Trap: "each", "every", "neither", "one of" all take a singular verb, regardless of what comes between them.</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Punctuation — Semicolon</h5>
+      <div class="why">Why it scores · sentence rhythm</div>
+      <div class="ba">
+        <span class="b">I was tired, however, I kept writing.</span>
+        <span class="a">I was tired; I kept writing anyway.</span>
+      </div>
+      <div class="trap">Trap: a semicolon joins two independent clauses. If either side cannot stand alone, use a comma or a colon.</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Punctuation — Em Dash</h5>
+      <div class="why">Why it scores · voice, interruption</div>
+      <div class="ba">
+        <span class="b">The answer was wrong (I knew it immediately).</span>
+        <span class="a">The answer was wrong — I knew it immediately — and still I did not raise my hand.</span>
+      </div>
+      <div class="trap">Trap: using em dashes on every second line. Reserve them for genuine interruptions of thought.</div>
+    </div>
+
+    <div class="gram-card">
+      <h5>Punctuation — Colon (with purpose)</h5>
+      <div class="why">Why it scores · definition, list, reveal</div>
+      <div class="ba">
+        <span class="b">She had one rule and that rule was simple.</span>
+        <span class="a">She had one rule, and it was simple: never apologise for a book you have actually read.</span>
+      </div>
+      <div class="trap">Trap: colon before a fragment that does not complete the setup.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ V. CLOSER ============ -->
+<section id="closer">
+  <div class="section-head">
+    <div class="num">V.</div>
+    <div>
+      <div class="kicker">Section Five</div>
+      <h2>Language Enrichment, Diction &amp; Criterion D</h2>
+    </div>
+  </div>
+  <p class="lead">The last frontier — vocabulary you can actually reach for under exam pressure. The substitutions below are the twenty switches that do the most work.</p>
+
+  <h4>Advanced Diction — Three Word Banks</h4>
+  <p style="max-width:680px">Words you can reach for under pressure. No substitutions, no "use this not that" — just three clean lists, grouped by what they are good at. Read each bank aloud once, and the ones that stick are yours.</p>
+
+  <style>
+    .bank{background:#fff;border:1px solid var(--rule);border-radius:4px;padding:22px 26px;margin-top:20px}
+    .bank h5{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin:0 0 4px}
+    .bank .sub{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--amber);margin-bottom:14px}
+    .bank .words{font-family:'Fraunces',serif;font-size:15px;line-height:1.9;color:var(--ink);column-count:2;column-gap:36px;column-rule:1px solid var(--rule)}
+    .bank .words span{display:inline-block;margin-right:4px}
+    .bank .count{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-top:14px;padding-top:12px;border-top:1px dashed var(--rule)}
+    @media (max-width:780px){.bank .words{column-count:1}}
+  </style>
+
+  <div class="bank">
+    <h5>Bank I · Character Traits</h5>
+    <div class="sub">For describing people — in narrative, memoir, biography, dialogue tags</div>
+    <div class="words">
+      resolute, obstinate, unflinching, tenacious, dogged, steadfast, single-minded, indefatigable, mercurial, capricious, volatile, temperamental, unpredictable, flighty, impulsive, rash, reckless, brash, headstrong, audacious, intrepid, fearless, dauntless, valiant, plucky, gallant, stoic, long-suffering, forbearing, patient, indulgent, magnanimous, benevolent, gracious, generous, openhanded, warmhearted, tenderhearted, compassionate, empathetic, sensitive, perceptive, discerning, astute, shrewd, canny, sagacious, worldly, urbane, cultivated, refined, polished, unassuming, modest, self-effacing, diffident, reserved, withdrawn, aloof, distant, standoffish, haughty, imperious, supercilious, disdainful, condescending, patronising, arrogant, vain, conceited, self-important, pompous, overbearing, domineering, autocratic, tyrannical, meddlesome, officious, interfering, nosy, garrulous, loquacious, voluble, chatty, effusive, ebullient, buoyant, irrepressible, indomitable, spirited, vivacious, exuberant, gregarious, sociable, affable, amiable, genial, convivial, cordial, jovial, mirthful, good-humoured, wry, droll, sardonic, sarcastic, caustic, acerbic, waspish, cutting, scathing, mordant, sly, cunning, devious, duplicitous, underhanded, furtive, surreptitious, evasive, shifty, guarded, wary, circumspect, prudent, judicious, measured, deliberate, methodical, meticulous, painstaking, punctilious, scrupulous, conscientious, earnest, sincere, candid, forthright, blunt, plainspoken, unvarnished, honest, principled, upright, righteous, virtuous, pious, devout, reverent, humble, meek, docile, submissive, compliant, pliant, biddable, obedient, dutiful, loyal, faithful, devoted, ardent, zealous, fervent, impassioned, headlong, wistful, pensive, contemplative, reflective, introspective, brooding, melancholic, morose, sullen, sulky, petulant, querulous, fractious, irritable, waspish, prickly, thin-skinned, touchy, sensitive, fragile, brittle, highly-strung, nervy, jittery, skittish, timorous, cowed, apprehensive, diffident, hesitant, tentative, irresolute, vacillating, equivocal, evasive, noncommittal, aloof, standoffish, inscrutable, enigmatic, opaque, unknowable, mysterious, remote, withdrawn, self-contained, self-possessed, composed, unruffled, unflappable, level-headed, equable, even-tempered, phlegmatic, imperturbable, serene, tranquil, placid, sanguine, optimistic, hopeful, idealistic, romantic, quixotic, dreamy, starry-eyed, jaded, disillusioned, world-weary, cynical, sceptical, incredulous, distrustful, suspicious, paranoid, fastidious, finicky, particular, exacting, demanding, rigorous, uncompromising, principled, dogmatic, doctrinaire, zealous, fanatic, ruthless, pitiless, merciless, unrelenting, hardened, flint-hearted, cold-blooded, calculating, mercenary, opportunistic, cunning, wily, foxy, slippery, slick, glib, smooth-tongued, silver-tongued, persuasive, winning, disarming, charming
+    </div>
+    <div class="count">~275 words</div>
+  </div>
+
+  <div class="bank">
+    <h5>Bank II · Precision Adjectives</h5>
+    <div class="sub">For sharpening any noun — objects, spaces, moods, ideas</div>
+    <div class="words">
+      austere, spartan, threadbare, frayed, dilapidated, derelict, decrepit, ramshackle, rickety, tumbledown, weatherbeaten, sun-bleached, storm-worn, time-worn, careworn, moth-eaten, mildewed, musty, fusty, cobwebbed, grime-streaked, soot-blackened, rust-flecked, tarnished, oxidised, corroded, pitted, scarred, battered, dented, splintered, warped, sagging, lopsided, crooked, askew, cockeyed, uneven, lumpen, misshapen, hulking, squat, stunted, stocky, spindly, gangly, willowy, slight, wispy, diminutive, miniature, pocket-sized, pocketable, compact, economical, ergonomic, utilitarian, functional, workmanlike, no-nonsense, serviceable, robust, sturdy, well-made, sound, solid, substantial, hefty, weighty, ponderous, cumbersome, unwieldy, unmanageable, impractical, impracticable, unworkable, serviceable, humdrum, workaday, prosaic, pedestrian, nondescript, unremarkable, forgettable, anonymous, generic, run-of-the-mill, garden-variety, commonplace, quotidian, ordinary, mundane, hackneyed, threadbare, overfamiliar, trite, clichéd, formulaic, derivative, unoriginal, stale, tired, flat, lacklustre, dull, drab, dreary, cheerless, joyless, gloomy, dismal, sombre, funereal, leaden, overcast, lowering, wintry, bleak, stark, bare, barren, desolate, forlorn, abandoned, forsaken, deserted, uninhabited, untenanted, hushed, muted, subdued, soft-lit, dim, murky, shadowy, crepuscular, twilit, half-lit, candlelit, moonlit, torchlit, sun-dappled, dappled, mottled, speckled, flecked, spotted, freckled, striated, veined, grained, textured, pebbled, dimpled, puckered, crinkled, crumpled, creased, pleated, rumpled, tousled, dishevelled, unkempt, ragged, bedraggled, sodden, soaked, sopping, drenched, saturated, waterlogged, parched, dehydrated, sun-scorched, sun-baked, arid, desiccated, cracked, fissured, crevassed, rutted, furrowed, ploughed, jagged, serrated, toothed, notched, nicked, chipped, flaked, peeling, blistered, bubbled, warped, swollen, bulging, bloated, distended, taut, tense, strained, stretched, drawn, gaunt, haggard, hollow-cheeked, emaciated, skeletal, spare, lean, wiry, sinewy, strapping, burly, brawny, muscular, sinuous, lithe, supple, pliable, resilient, elastic, buoyant, feather-light, gossamer, ethereal, diaphanous, translucent, iridescent, opalescent, pearlescent, luminescent, luminous, radiant, incandescent, coruscating, glittering, glinting, shimmering, sparkling, twinkling, flickering, guttering, dying, smouldering, glowing, burnished, polished, lacquered, varnished, gilded, inlaid, engraved, embossed, chiselled, hand-hewn, handmade, homespun, homemade, old-fashioned, heirloom, antique, vintage, timeworn, time-honoured, hallowed
+    </div>
+    <div class="count">~280 words</div>
+  </div>
+
+  <div class="bank">
+    <h5>Bank III · Imagery &amp; Description</h5>
+    <div class="sub">Sensory verbs and nouns — the words that do the heavy lifting in descriptive paragraphs</div>
+    <div class="words">
+      shimmer, glimmer, glint, glisten, gleam, glow, flare, flicker, gutter, smoulder, kindle, blaze, flame, ignite, char, scorch, singe, sear, bake, simmer, bubble, froth, seethe, roil, churn, eddy, swirl, ripple, lap, slosh, spill, seep, trickle, drip, dribble, gush, spurt, cascade, plunge, tumble, spatter, splatter, patter, pitter, drum, thrum, hum, murmur, whisper, rustle, susurrate, sigh, breathe, exhale, whoosh, swish, whisk, flutter, flap, billow, swell, surge, heave, crest, break, fall, crash, thunder, boom, rumble, grumble, groan, creak, moan, whine, wail, keen, clatter, rattle, clink, clank, clang, chime, peal, toll, knell, tinkle, jingle, jangle, ring, reverberate, resound, echo, hiss, sizzle, crackle, snap, pop, crunch, grind, scrape, scuff, shuffle, pad, tread, trudge, plod, stomp, thump, stride, lope, amble, saunter, meander, wander, drift, glide, slip, slide, skim, skate, skitter, scurry, scamper, scuttle, dart, dash, bolt, streak, tear, hurtle, charge, stampede, smoke, steam, mist, haze, fog, vapour, drizzle, downpour, torrent, deluge, squall, tempest, gale, zephyr, breeze, draft, gust, sunlight, sunshine, sunbeam, shaft, ray, dapple, shadow, silhouette, outline, contour, profile, fragrance, scent, perfume, aroma, bouquet, savour, tang, zest, whiff, reek, stench, fetor, sweetness, bitterness, acridity, pungency, earthiness, saltiness, velvet, silk, linen, cotton, wool, denim, canvas, leather, hide, fur, fleece, down, feather, bristle, thatch, straw, hay, husk, chaff, dust, grit, sand, loam, soil, clay, gravel, shingle, pebble, cobble, flagstone, limestone, marble, granite, slate, ember, ash, cinder, soot, smog, copper, brass, bronze, iron, steel, pewter, tin, amber, ochre, rust, auburn, chestnut, mahogany, sepia, umber, terracotta, crimson, scarlet, vermilion, saffron, mustard, lemon, buttercup, jade, emerald, sage, moss, olive, indigo, cobalt, cerulean, azure, teal, violet, lilac, lavender, ivory, alabaster, pearl, bone, cream, ebony, onyx, coal, pitch, dusk, dawn, twilight, gloaming, midday, noon, dusktide, nightfall, moonrise
+    </div>
+    <div class="count">~285 words</div>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h4>Show, Don't Tell — Three Lifts</h4>
+      <div class="gram-card">
+        <div class="ba">
+          <span class="b">She was nervous.</span>
+          <span class="a">She had folded the same piece of paper four times; it now refused to unfold.</span>
+        </div>
+      </div>
+      <div class="gram-card">
+        <div class="ba">
+          <span class="b">He was angry.</span>
+          <span class="a">He placed the teacup on the saucer with the exaggerated gentleness of a man not trusting his own hands.</span>
+        </div>
+      </div>
+      <div class="gram-card">
+        <div class="ba">
+          <span class="b">The room was old.</span>
+          <span class="a">Every shelf had the faint, patient smell of paper that had outlived the people who bought it.</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h4>Register Switcher — Same Idea, Three Voices</h4>
+      <div class="gram-card">
+        <h5>Formal</h5>
+        <div class="ba"><span class="a">The proposal, while imperfect, merits serious consideration before dismissal.</span></div>
+      </div>
+      <div class="gram-card">
+        <h5>Neutral</h5>
+        <div class="ba"><span class="a">The idea has flaws, but it's worth thinking about properly before we throw it out.</span></div>
+      </div>
+      <div class="gram-card">
+        <h5>Colloquial</h5>
+        <div class="ba"><span class="a">Yeah, it's not perfect — but come on, at least give it a real look before chucking it.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="checklist">
+    <h5>Exam-Day Criterion D Checklist</h5>
+    <ol>
+      <li>Read the task twice — <em>before</em> you read the text. Register first.</li>
+      <li>Choose one controlling tone and do not drift from it.</li>
+      <li>Plant at least four named devices — one must be structural (anaphora, tricolon, parallelism).</li>
+      <li>Vary sentence length: short, short, long-and-breathing. Never three longs in a row.</li>
+      <li>Use one conditional (second or third) and one passive, on purpose.</li>
+      <li>Use one precise semicolon and one em dash — no more, no less.</li>
+      <li>Upgrade at least five weak verbs on your re-read. "Said" is allowed; "very" is not.</li>
+      <li>End on an image, a question, or a silence — never a summary.</li>
+      <li>Check tense consistency across the whole piece before you leave the page.</li>
+      <li>Word count: 340–380 is the sweet spot. Under 320 = no Criterion C. Over 400 = no time for a re-read.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  Built for a twenty-day runway · Fifteen exemplars · One examiner's smile away from a 7
+</footer>
+
+</div>
+
+<script>
+  // Smooth scroll + TOC active highlight
+  const links = document.querySelectorAll('nav.toc a');
+  const sections = [...document.querySelectorAll('section')];
+  const setActive = () => {
+    const y = window.scrollY + 120;
+    let active = sections[0];
+    for (const s of sections) if (s.offsetTop <= y) active = s;
+    links.forEach(l => l.style.color = l.getAttribute('href') === '#' + active.id ? 'var(--ink)' : '');
+  };
+  window.addEventListener('scroll', setActive, {passive:true});
+  setActive();
+</script>
+</body>
+</html>
