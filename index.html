@@ -51,20 +51,35 @@
   .meta{display:flex;gap:26px;margin-top:26px;font-size:12px;color:var(--ink-2);letter-spacing:.04em}
   .meta span b{color:var(--ink);font-weight:600}
 
-  /* TOC */
-  nav.toc{
+  /* Tab bar */
+  nav.tabs{
     position:sticky;top:0;background:var(--paper);
     border-bottom:1px solid var(--rule);
-    z-index:20;padding:14px 0;margin-bottom:50px;
+    z-index:20;padding:0;
     backdrop-filter:saturate(1.2) blur(6px);
   }
-  nav.toc ol{display:flex;gap:28px;list-style:none;padding:0;margin:0;font-size:13px;flex-wrap:wrap}
-  nav.toc ol li a{color:var(--ink-2);border:none;display:flex;gap:8px;align-items:baseline}
-  nav.toc ol li a .n{font-family:'Fraunces',serif;font-feature-settings:"onum";color:var(--amber);font-size:14px}
-  nav.toc ol li a:hover{color:var(--ink)}
+  nav.tabs .tab-list{display:flex;gap:0;list-style:none;padding:0;margin:0;font-size:13px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  nav.tabs .tab-list li{flex-shrink:0}
+  nav.tabs .tab-btn{
+    display:flex;gap:7px;align-items:center;
+    padding:16px 22px;
+    border:none;background:none;cursor:pointer;
+    font-family:'Inter',sans-serif;font-size:13px;
+    color:var(--ink-2);
+    border-bottom:2px solid transparent;
+    transition:color .15s,border-color .15s;
+    white-space:nowrap;
+  }
+  nav.tabs .tab-btn:hover{color:var(--ink)}
+  nav.tabs .tab-btn.active{color:var(--ink);border-bottom-color:var(--amber);font-weight:600}
+  nav.tabs .tab-btn .n{font-family:'Fraunces',serif;font-feature-settings:"onum";color:var(--amber);font-size:14px}
+
+  /* Tab panels */
+  .tab-panel{display:none}
+  .tab-panel.active{display:block}
 
   /* Sections */
-  section{padding:50px 0 60px;border-top:1px solid var(--rule)}
+  section{padding:50px 0 60px;border-top:none}
   section:first-of-type{border-top:none}
   .section-head{display:flex;align-items:baseline;gap:18px;margin-bottom:30px}
   .section-head .num{font-family:'Fraunces',serif;font-feature-settings:"onum";font-size:52px;color:var(--amber);line-height:1;font-weight:400}
@@ -215,17 +230,19 @@
   </div>
 </header>
 
-<nav class="toc" aria-label="Sections">
-  <ol>
-    <li><a href="#lit"><span class="n">I.</span> Literary Text Types</a></li>
-    <li><a href="#nonlit"><span class="n">II.</span> Non-Literary Text Types</a></li>
-    <li><a href="#devices"><span class="n">III.</span> Literary Devices</a></li>
-    <li><a href="#grammar"><span class="n">IV.</span> Advanced Grammar</a></li>
-    <li><a href="#closer"><span class="n">V.</span> Enrichment &amp; Criterion D</a></li>
-  </ol>
+<nav class="tabs" aria-label="Sections">
+  <ul class="tab-list" role="tablist">
+    <li><button class="tab-btn active" data-tab="lit" role="tab"><span class="n">I.</span> Literary</button></li>
+    <li><button class="tab-btn" data-tab="nonlit" role="tab"><span class="n">II.</span> Non-Literary</button></li>
+    <li><button class="tab-btn" data-tab="devices" role="tab"><span class="n">III.</span> Literary Devices</button></li>
+    <li><button class="tab-btn" data-tab="grammar" role="tab"><span class="n">IV.</span> Grammar</button></li>
+    <li><button class="tab-btn" data-tab="closer" role="tab"><span class="n">V.</span> Enrichment</button></li>
+    <li><button class="tab-btn" data-tab="arsenal" role="tab"><span class="n">VI.</span> Language Arsenal</button></li>
+  </ul>
 </nav>
 
 <!-- ============ I. LITERARY ============ -->
+<div class="tab-panel active" id="panel-lit">
 <section id="lit">
   <div class="section-head">
     <div class="num">I.</div>
@@ -851,7 +868,10 @@ have gone back to being equations.
 </section>
 
 
+</div><!-- /panel-lit -->
+
 <!-- ============ II. NON-LITERARY ============ -->
+<div class="tab-panel" id="panel-nonlit">
 <section id="nonlit">
   <div class="section-head">
     <div class="num">II.</div>
@@ -1477,7 +1497,10 @@ have gone back to being equations.
 </section>
 
 
+</div><!-- /panel-nonlit -->
+
 <!-- ============ III. LITERARY DEVICES ============ -->
+<div class="tab-panel" id="panel-devices">
 <section id="devices">
   <div class="section-head">
     <div class="num">III.</div>
@@ -1488,47 +1511,128 @@ have gone back to being equations.
   </div>
   <p class="lead">A device you can name is a device you can deploy. Every example below was written fresh — so that recognising them in an unseen text, and using them in your own, becomes a single habit.</p>
 
-  <div class="dev-group">Figurative</div>
+  <div class="dev-group">Figurative &amp; Comparative</div>
   <div class="devices">
     <div class="dev-card"><div class="name">Simile</div><div class="def">Compares using <em>like</em> or <em>as</em>.</div><div class="ex">Her patience was like well water — deep, cold, and not always easy to reach.</div></div>
     <div class="dev-card"><div class="name">Metaphor</div><div class="def">Says one thing <em>is</em> another.</div><div class="ex">The exam hall was a courtroom in which I was both witness and accused.</div></div>
+    <div class="dev-card"><div class="name">Extended Metaphor</div><div class="def">A metaphor sustained across multiple sentences or a whole passage.</div><div class="ex">The school was a ship. The principal stood at the helm, the corridors were decks, and every bell was a foghorn calling us to order.</div></div>
     <div class="dev-card"><div class="name">Personification</div><div class="def">Gives human qualities to the non-human.</div><div class="ex">The old fan in the corner coughed once and went back to its opinions.</div></div>
+    <div class="dev-card"><div class="name">Pathetic Fallacy</div><div class="def">Nature reflecting a character's emotions.</div><div class="ex">As she read the results, the sky darkened, as though it too had been disappointed.</div></div>
     <div class="dev-card"><div class="name">Hyperbole</div><div class="def">Deliberate, obvious exaggeration.</div><div class="ex">I must have read that page six thousand times and it has never once read me back.</div></div>
+    <div class="dev-card"><div class="name">Litotes</div><div class="def">Understatement by denying the opposite — <em>not un-</em>.</div><div class="ex">She was not unintelligent — she simply chose to apply her intelligence elsewhere.</div></div>
+    <div class="dev-card"><div class="name">Meiosis</div><div class="def">Deliberate understatement to diminish something important.</div><div class="ex">"A slight disagreement," she called it; three shelves had been overturned.</div></div>
     <div class="dev-card"><div class="name">Symbolism</div><div class="def">An object that stands for an idea.</div><div class="ex">The green cycle, still leaning by the gate, had become the shape of his forgiveness.</div></div>
-    <div class="dev-card"><div class="name">Imagery</div><div class="def">Sensory detail that paints without explaining.</div><div class="ex">The kitchen smelled of cardamom and rain and the slow end of Sunday.</div></div>
+    <div class="dev-card"><div class="name">Allegory</div><div class="def">An entire story works as an extended symbol for a real-world idea.</div><div class="ex">The fable of the peacock is also a fable about politicians who speak but never listen.</div></div>
+    <div class="dev-card"><div class="name">Imagery (Visual)</div><div class="def">Detail that paints for the eyes.</div><div class="ex">The kitchen glowed amber, the steel vessels catching the last light like a row of small moons.</div></div>
+    <div class="dev-card"><div class="name">Imagery (Auditory)</div><div class="def">Detail that paints for the ears.</div><div class="ex">The temple bell rang once — a single bronze note that held the morning by the throat.</div></div>
+    <div class="dev-card"><div class="name">Imagery (Olfactory)</div><div class="def">Detail that paints for the nose.</div><div class="ex">The corridor smelled of phenyl, chalk dust, and the particular sadness of reheated sambar.</div></div>
+    <div class="dev-card"><div class="name">Imagery (Gustatory)</div><div class="def">Detail that paints for the tongue.</div><div class="ex">The coffee was bitter enough to be honest and sweet enough to drink.</div></div>
+    <div class="dev-card"><div class="name">Imagery (Tactile)</div><div class="def">Detail that paints for touch.</div><div class="ex">The paper was warm, as though the printer had just breathed it out.</div></div>
+    <div class="dev-card"><div class="name">Imagery (Kinaesthetic)</div><div class="def">Detail that evokes movement or bodily sensation.</div><div class="ex">Her stomach dropped — the lurch of a missed step on a staircase.</div></div>
     <div class="dev-card"><div class="name">Oxymoron</div><div class="def">Two contradictory words joined deliberately.</div><div class="ex">It was a loud silence, the kind only teenagers perfect.</div></div>
-    <div class="dev-card"><div class="name">Pun</div><div class="def">Play on word with two meanings.</div><div class="ex">The mathematician's wife divorced him; she said he'd lost his <em>common denominators</em>.</div></div>
+    <div class="dev-card"><div class="name">Paradox</div><div class="def">A seemingly contradictory statement that reveals a truth.</div><div class="ex">The more I studied, the less I understood — and the less I understood, the more I finally learned.</div></div>
+    <div class="dev-card"><div class="name">Pun</div><div class="def">Play on a word with two meanings.</div><div class="ex">The mathematician's wife divorced him; she said he'd lost his <em>common denominators</em>.</div></div>
+    <div class="dev-card"><div class="name">Analogy</div><div class="def">Extended comparison to explain an unfamiliar idea via a familiar one.</div><div class="ex">Revising without past papers is like practising basketball without a hoop — you move, but you don't score.</div></div>
+    <div class="dev-card"><div class="name">Conceit</div><div class="def">An unusual, strikingly original metaphor (often literary).</div><div class="ex">Her memory was an old filing cabinet — the drawers stuck, the labels peeled, but everything was still inside, in order.</div></div>
+    <div class="dev-card"><div class="name">Metonymy</div><div class="def">Replacing something with a related term — <em>the crown</em> for the king.</div><div class="ex">The <em>bench</em> ruled in her favour; the <em>press</em> disagreed.</div></div>
+    <div class="dev-card"><div class="name">Synecdoche</div><div class="def">A part stands for the whole, or the whole for a part.</div><div class="ex">All <em>hands</em> were on deck. A dozen <em>heads</em> turned.</div></div>
   </div>
 
-  <div class="dev-group">Sound</div>
+  <div class="dev-group">Sound Devices</div>
   <div class="devices">
     <div class="dev-card"><div class="name">Alliteration</div><div class="def">Repeated consonant at the start of nearby words.</div><div class="ex">The bakery breathed butter, bread and <em>belonging</em>.</div></div>
     <div class="dev-card"><div class="name">Assonance</div><div class="def">Repeated vowel sound across nearby words.</div><div class="ex">The <em>slow</em> <em>boat</em> <em>rolled</em> into a <em>known</em> harbour.</div></div>
     <div class="dev-card"><div class="name">Consonance</div><div class="def">Repeated consonant sound within or ending words.</div><div class="ex">A pitter-patter matter of fact afternoon.</div></div>
     <div class="dev-card"><div class="name">Onomatopoeia</div><div class="def">Word imitates a sound.</div><div class="ex">The kettle <em>whistled</em>; the bread <em>crackled</em>; the day <em>clicked</em> on.</div></div>
     <div class="dev-card"><div class="name">Sibilance</div><div class="def">Hissing sound pattern — s, sh, z.</div><div class="ex">Silver scales slipped across the slick stone floor.</div></div>
+    <div class="dev-card"><div class="name">Plosive</div><div class="def">Hard, explosive consonant sounds — b, d, g, p, t, k — for impact.</div><div class="ex">The <em>b</em>ell <em>b</em>arked, <em>b</em>rief and <em>b</em>rutal, and the <em>b</em>oys bolted.</div></div>
+    <div class="dev-card"><div class="name">Fricative</div><div class="def">Soft, hissing or buzzing consonants — f, v, th, z — for gentleness or unease.</div><div class="ex">The <em>f</em>ire <em>f</em>lickered, <em>f</em>ading to a thin, <em>f</em>ragile thread.</div></div>
+    <div class="dev-card"><div class="name">Cacophony</div><div class="def">Harsh, discordant sounds creating tension.</div><div class="ex">The cracked clock clattered, clanged, and collapsed on the concrete.</div></div>
+    <div class="dev-card"><div class="name">Euphony</div><div class="def">Smooth, pleasant sounds creating calm.</div><div class="ex">The willow leaned over the still water, trailing leaves like long, low lullabies.</div></div>
+    <div class="dev-card"><div class="name">Rhyme</div><div class="def">Matching end-sounds for music and memorability.</div><div class="ex">A mind that reads is a mind that leads.</div></div>
+    <div class="dev-card"><div class="name">Internal Rhyme</div><div class="def">Rhyme occurring within a single line.</div><div class="ex">He <em>paced</em> the <em>space</em> with a face that had aged a decade in a day.</div></div>
+    <div class="dev-card"><div class="name">Rhythm / Metre</div><div class="def">A pattern of stressed and unstressed syllables.</div><div class="ex">da-DUM da-DUM da-DUM da-DUM — iambic pentameter marches like a heartbeat.</div></div>
     <div class="dev-card"><div class="name">Repetition</div><div class="def">Same word or phrase for emphasis.</div><div class="ex">I waited. I waited. I waited until waiting became a kind of address.</div></div>
   </div>
 
-  <div class="dev-group">Structural &amp; Rhetorical</div>
+  <div class="dev-group">Structural Devices</div>
   <div class="devices">
     <div class="dev-card"><div class="name">Anaphora</div><div class="def">Repetition at the start of successive clauses.</div><div class="ex">We rose early. We rose tired. We rose as if rising were itself a kind of answer.</div></div>
+    <div class="dev-card"><div class="name">Epistrophe</div><div class="def">Repetition at the <em>end</em> of successive clauses.</div><div class="ex">She would not speak of the war. Her mother would not speak of the war. The whole village would not speak of the war.</div></div>
+    <div class="dev-card"><div class="name">Symploce</div><div class="def">Anaphora and epistrophe combined — same start <em>and</em> same end.</div><div class="ex">When there is talk of safety, there is no safety. When there is talk of freedom, there is no freedom.</div></div>
     <div class="dev-card"><div class="name">Parallelism</div><div class="def">Matching grammatical structure across phrases.</div><div class="ex">To read is to listen; to write is to reply; to revise is to apologise.</div></div>
     <div class="dev-card"><div class="name">Antithesis</div><div class="def">Contrasting ideas placed side by side.</div><div class="ex">We wanted silence, and were given only quiet.</div></div>
     <div class="dev-card"><div class="name">Tricolon</div><div class="def">Three-part list with rising impact.</div><div class="ex">She came, she saw, she filed a detailed complaint.</div></div>
-    <div class="dev-card"><div class="name">Rhetorical Question</div><div class="def">A question posed for effect, not answer.</div><div class="ex">Is a home the building, or the argument you left in it?</div></div>
-    <div class="dev-card"><div class="name">Irony</div><div class="def">Gap between appearance and reality.</div><div class="ex">The fire-safety poster caught fire during the drill, as if to illustrate itself.</div></div>
-    <div class="dev-card"><div class="name">Foreshadowing</div><div class="def">Hint of what is to come.</div><div class="ex">The sky had the exact colour it had the evening Appa left; no one mentioned it.</div></div>
-    <div class="dev-card"><div class="name">Flashback</div><div class="def">A jump to an earlier moment.</div><div class="ex">Before the interview, before the tie, before the train, there had been a green cycle.</div></div>
+    <div class="dev-card"><div class="name">Climax (Gradatio)</div><div class="def">A sequence that rises in importance or intensity.</div><div class="ex">He passed the test, he topped the class, he won the scholarship.</div></div>
+    <div class="dev-card"><div class="name">Anticlimax (Bathos)</div><div class="def">A sudden, deflating drop after a build-up — for humour or irony.</div><div class="ex">He braved the storm, crossed the river, scaled the wall — and forgot his keys.</div></div>
+    <div class="dev-card"><div class="name">Chiasmus</div><div class="def">Reversed parallel structure — AB → BA.</div><div class="ex">You forget what you want to remember, and you remember what you want to forget.</div></div>
     <div class="dev-card"><div class="name">Asyndeton</div><div class="def">Conjunctions removed for urgency.</div><div class="ex">Books, pens, nerves, hope — she packed them all.</div></div>
-    <div class="dev-card"><div class="name">Polysyndeton</div><div class="def">Extra conjunctions added for rhythm.</div><div class="ex">And the rain and the bell and the bus and the boy were all suddenly one thing.</div></div>
+    <div class="dev-card"><div class="name">Polysyndeton</div><div class="def">Extra conjunctions added for rhythm or weight.</div><div class="ex">And the rain and the bell and the bus and the boy were all suddenly one thing.</div></div>
+    <div class="dev-card"><div class="name">Enjambment</div><div class="def">A sentence runs across line breaks without punctuation (in poetry).</div><div class="ex">I walked across the field and / into a different year.</div></div>
+    <div class="dev-card"><div class="name">Caesura</div><div class="def">A deliberate pause in the middle of a line (in poetry).</div><div class="ex">The door closed. || She did not look back.</div></div>
+    <div class="dev-card"><div class="name">Juxtaposition</div><div class="def">Two contrasting images, ideas or scenes placed next to each other.</div><div class="ex">Outside, children played. Inside, a woman sat alone with a sealed envelope.</div></div>
+    <div class="dev-card"><div class="name">In Medias Res</div><div class="def">Starting in the middle of the action, not the beginning.</div><div class="ex">The tiffin was already falling when she turned. Three seconds. Two hands. One chance.</div></div>
+    <div class="dev-card"><div class="name">Volta</div><div class="def">A turn in argument or mood, especially in poetry.</div><div class="ex">And then — the power returned. And everything that mattered in the dark stopped mattering.</div></div>
+    <div class="dev-card"><div class="name">Circular Structure</div><div class="def">The ending echoes or returns to the opening.</div><div class="ex">It began with a bicycle bell. It ended — years later, cities later — with the same bell, rusted.</div></div>
+    <div class="dev-card"><div class="name">Frame Narrative</div><div class="def">A story within a story — an outer narrator introduces an inner tale.</div><div class="ex">My grandfather told me this. He said his grandfather told him. The story, it seems, is older than any of us.</div></div>
+  </div>
+
+  <div class="dev-group">Rhetorical &amp; Persuasive</div>
+  <div class="devices">
+    <div class="dev-card"><div class="name">Rhetorical Question</div><div class="def">A question posed for effect, not answer.</div><div class="ex">Is a home the building, or the argument you left in it?</div></div>
+    <div class="dev-card"><div class="name">Hypophora</div><div class="def">A rhetorical question followed by the speaker's own answer.</div><div class="ex">Is there a solution? There is — and it begins with listening.</div></div>
+    <div class="dev-card"><div class="name">Ethos</div><div class="def">Establishing the speaker's credibility or moral authority.</div><div class="ex">As someone who has worked in this community for twenty years, I can assure you…</div></div>
+    <div class="dev-card"><div class="name">Pathos</div><div class="def">Appealing to the audience's emotions.</div><div class="ex">She was six years old. She walked two kilometres every day to drink clean water.</div></div>
+    <div class="dev-card"><div class="name">Logos</div><div class="def">Appealing to logic, data and reason.</div><div class="ex">Sixty-two per cent of students surveyed said they would read more if the process were faster.</div></div>
+    <div class="dev-card"><div class="name">Imperative</div><div class="def">A command-form verb that directs the reader.</div><div class="ex">Put down the phone. Pick up a pen. Begin.</div></div>
+    <div class="dev-card"><div class="name">Direct Address</div><div class="def">Speaking to the reader or audience using "you".</div><div class="ex">You know this feeling. You have lived it. And you will live it again.</div></div>
+    <div class="dev-card"><div class="name">Inclusive Pronoun</div><div class="def">Using "we" and "our" to unite speaker and audience.</div><div class="ex">We are the generation that was told to wait. Let us stop waiting.</div></div>
+    <div class="dev-card"><div class="name">Concession</div><div class="def">Acknowledging the opposing view before refuting it.</div><div class="ex">Of course the policy has merits. But its merits are dwarfed by its costs.</div></div>
+    <div class="dev-card"><div class="name">Rebuttal</div><div class="def">Directly countering an opposing argument.</div><div class="ex">Those who argue that children are too young to understand politics underestimate the children and overestimate the politics.</div></div>
+    <div class="dev-card"><div class="name">Aphorism</div><div class="def">A short, memorable statement of truth.</div><div class="ex">A tail is a thing you are given. A pair of ears is a thing you must earn.</div></div>
+    <div class="dev-card"><div class="name">Epigram</div><div class="def">A witty, paradoxical one-liner.</div><div class="ex">I can resist anything except temptation.</div></div>
+  </div>
+
+  <div class="dev-group">Narrative &amp; Dramatic</div>
+  <div class="devices">
+    <div class="dev-card"><div class="name">Irony (Verbal)</div><div class="def">Saying the opposite of what you mean.</div><div class="ex">The fire-safety poster caught fire during the drill, as if to illustrate itself.</div></div>
+    <div class="dev-card"><div class="name">Irony (Situational)</div><div class="def">An outcome that is the opposite of what was expected.</div><div class="ex">The swimming instructor drowned on his day off.</div></div>
+    <div class="dev-card"><div class="name">Irony (Dramatic)</div><div class="def">The audience knows something the character does not.</div><div class="ex">She opened the letter cheerfully; we already knew what it said.</div></div>
+    <div class="dev-card"><div class="name">Foreshadowing</div><div class="def">A hint of what is to come.</div><div class="ex">The sky had the exact colour it had the evening Appa left; no one mentioned it.</div></div>
+    <div class="dev-card"><div class="name">Flashback</div><div class="def">A jump to an earlier moment in time.</div><div class="ex">Before the interview, before the tie, before the train, there had been a green cycle.</div></div>
+    <div class="dev-card"><div class="name">Flash-forward</div><div class="def">A jump to a future moment in time.</div><div class="ex">She would think of this morning for years — though she did not know it yet.</div></div>
+    <div class="dev-card"><div class="name">Dramatic Monologue</div><div class="def">A single character speaking, revealing their inner self.</div><div class="ex">You think I wanted the part? I wanted what the part would <em>prove</em>.</div></div>
+    <div class="dev-card"><div class="name">Soliloquy</div><div class="def">A character thinking aloud, alone on stage.</div><div class="ex">If I do this, I cannot undo it. If I don't — I'll never know.</div></div>
+    <div class="dev-card"><div class="name">Aside</div><div class="def">A brief remark directed at the audience, unheard by other characters.</div><div class="ex">[to the audience] She believes me. That is the worst part.</div></div>
+    <div class="dev-card"><div class="name">Subtext</div><div class="def">What is meant beneath what is said.</div><div class="ex">"It's fine." (It was not fine.)</div></div>
+    <div class="dev-card"><div class="name">Characterisation (Direct)</div><div class="def">The narrator tells us what a character is like.</div><div class="ex">Amma was stubborn, generous, and incapable of admitting she was wrong.</div></div>
+    <div class="dev-card"><div class="name">Characterisation (Indirect)</div><div class="def">We infer character from actions, speech, appearance.</div><div class="ex">She folded the report card into a paper plane and launched it down the corridor.</div></div>
+    <div class="dev-card"><div class="name">Motif</div><div class="def">A recurring image, symbol or idea that develops a theme.</div><div class="ex">The green cycle appears three times — at the beginning, the middle, and the final paragraph.</div></div>
+    <div class="dev-card"><div class="name">Leitmotif</div><div class="def">A phrase, image or idea repeated as a kind of signature.</div><div class="ex">"Tomorrow the door" — repeated by both mother and son, binding the scene.</div></div>
+  </div>
+
+  <div class="dev-group">Tone, Voice &amp; Register</div>
+  <div class="devices">
+    <div class="dev-card"><div class="name">Tone</div><div class="def">The writer's attitude toward the subject — <em>wry, solemn, tender</em>.</div><div class="ex">The tone shifts from playful to reflective mid-paragraph, mirroring the speaker's dawning realisation.</div></div>
+    <div class="dev-card"><div class="name">Register</div><div class="def">Level of formality — colloquial, neutral, formal.</div><div class="ex">"The initiative merits serious attention" (formal) vs "This idea deserves a proper look" (neutral).</div></div>
+    <div class="dev-card"><div class="name">Colloquialism</div><div class="def">Informal, everyday language that adds warmth and voice.</div><div class="ex">The canteen's coffee was, let's be honest, basically hot water with ambitions.</div></div>
+    <div class="dev-card"><div class="name">Dialect / Vernacular</div><div class="def">Regional speech used for authenticity.</div><div class="ex">"Khaana garam hai, aunty." — The shift to Hindi anchors the dialogue in place.</div></div>
+    <div class="dev-card"><div class="name">Jargon</div><div class="def">Specialised vocabulary of a profession or group.</div><div class="ex">The doctor noted "bilateral effusion" — a phrase that meant nothing to anyone in the waiting room.</div></div>
+    <div class="dev-card"><div class="name">Sarcasm</div><div class="def">Cutting irony intended to mock.</div><div class="ex">"Oh, brilliant idea — let's put the fire-safety poster next to the gas stove."</div></div>
     <div class="dev-card"><div class="name">Euphemism</div><div class="def">Polite softening of a hard truth.</div><div class="ex">Appa was not unemployed; he was "between opportunities".</div></div>
+    <div class="dev-card"><div class="name">Dysphemism</div><div class="def">Deliberately harsh or blunt phrasing — the opposite of euphemism.</div><div class="ex">He didn't "pass away". He died. In the kitchen. Alone.</div></div>
     <div class="dev-card"><div class="name">Idiom</div><div class="def">Fixed phrase with non-literal meaning.</div><div class="ex">After the results, Ma was walking on eggshells around the report card.</div></div>
+    <div class="dev-card"><div class="name">Allusion</div><div class="def">An indirect reference to a well-known text, myth, event or person.</div><div class="ex">It was a Sisyphean task — she climbed the hill every morning, and every evening the stone rolled back down.</div></div>
+    <div class="dev-card"><div class="name">Apostrophe (device)</div><div class="def">Directly addressing an absent person, idea or thing.</div><div class="ex">O sleep, why do you visit everyone in this house except me?</div></div>
+    <div class="dev-card"><div class="name">Satire</div><div class="def">Using humour, irony or exaggeration to criticise and expose.</div><div class="ex">The committee met to discuss efficiency. The meeting lasted four hours.</div></div>
   </div>
 </section>
 
 
+</div><!-- /panel-devices -->
+
 <!-- ============ IV. GRAMMAR ============ -->
+<div class="tab-panel" id="panel-grammar">
 <section id="grammar">
   <div class="section-head">
     <div class="num">IV.</div>
@@ -1683,7 +1787,10 @@ have gone back to being equations.
 </section>
 
 
+</div><!-- /panel-grammar -->
+
 <!-- ============ V. CLOSER ============ -->
+<div class="tab-panel" id="panel-closer">
 <section id="closer">
   <div class="section-head">
     <div class="num">V.</div>
@@ -1789,25 +1896,495 @@ have gone back to being equations.
     </ol>
   </div>
 </section>
+</div><!-- /panel-closer -->
+
+<!-- ============ VI. LANGUAGE ARSENAL ============ -->
+<div class="tab-panel" id="panel-arsenal">
+<section id="arsenal">
+  <div class="section-head">
+    <div class="num">VI.</div>
+    <div>
+      <div class="kicker">Section Six</div>
+      <h2>Language Arsenal</h2>
+    </div>
+  </div>
+  <p class="lead">Four hundred expressions to load into working memory before exam day. Each one is a sentence waiting to happen.</p>
+
+  <style>
+    .arsenal-bank{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:28px 30px;margin-top:28px}
+    .arsenal-bank h4{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin:0 0 4px}
+    .arsenal-bank .sub{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--amber);margin-bottom:18px}
+    .arsenal-bank ol{column-count:2;column-gap:36px;column-rule:1px solid var(--rule);padding-left:28px;margin:0;font-family:'Fraunces',serif;font-size:14px;line-height:1.75;color:var(--ink)}
+    .arsenal-bank ol li{padding:2px 0;break-inside:avoid}
+    .arsenal-bank ol li .meaning{font-family:'Inter',sans-serif;font-size:11.5px;color:var(--ink-2);display:block;line-height:1.4;margin-top:1px}
+    .arsenal-bank .count{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-top:18px;padding-top:14px;border-top:1px dashed var(--rule)}
+    @media(max-width:780px){.arsenal-bank ol{column-count:1}}
+  </style>
+
+  <!-- ===== 100 IDIOMS ===== -->
+  <div class="arsenal-bank">
+    <h4>100 Idioms</h4>
+    <div class="sub">Fixed phrases with non-literal meanings — drop them into dialogue, diary entries, informal letters</div>
+    <ol>
+      <li>a blessing in disguise <span class="meaning">something bad that turns out good</span></li>
+      <li>a dime a dozen <span class="meaning">very common, not special</span></li>
+      <li>a penny for your thoughts <span class="meaning">asking what someone is thinking</span></li>
+      <li>add insult to injury <span class="meaning">make a bad situation worse</span></li>
+      <li>at the drop of a hat <span class="meaning">without hesitation</span></li>
+      <li>back to the drawing board <span class="meaning">start over from the beginning</span></li>
+      <li>barking up the wrong tree <span class="meaning">pursuing a mistaken line of thought</span></li>
+      <li>beat around the bush <span class="meaning">avoid saying what you mean directly</span></li>
+      <li>bite off more than you can chew <span class="meaning">take on more than you can handle</span></li>
+      <li>bite the bullet <span class="meaning">endure something difficult with courage</span></li>
+      <li>break the ice <span class="meaning">make people feel more comfortable</span></li>
+      <li>burn bridges <span class="meaning">destroy relationships or opportunities</span></li>
+      <li>burn the midnight oil <span class="meaning">work or study late into the night</span></li>
+      <li>by the skin of your teeth <span class="meaning">narrowly, barely</span></li>
+      <li>call it a day <span class="meaning">decide to stop working</span></li>
+      <li>cost an arm and a leg <span class="meaning">be very expensive</span></li>
+      <li>cross that bridge when you come to it <span class="meaning">deal with a problem when it arises</span></li>
+      <li>cut corners <span class="meaning">do something cheaply or badly to save time</span></li>
+      <li>cut to the chase <span class="meaning">get to the point</span></li>
+      <li>don't cry over spilt milk <span class="meaning">don't waste time regretting what cannot be undone</span></li>
+      <li>every cloud has a silver lining <span class="meaning">there is good in every bad situation</span></li>
+      <li>feeling under the weather <span class="meaning">feeling unwell</span></li>
+      <li>get a taste of your own medicine <span class="meaning">experience what you inflict on others</span></li>
+      <li>get out of hand <span class="meaning">become uncontrollable</span></li>
+      <li>give someone the benefit of the doubt <span class="meaning">trust someone despite uncertainty</span></li>
+      <li>go back to square one <span class="meaning">return to the very beginning</span></li>
+      <li>go the extra mile <span class="meaning">do more than expected</span></li>
+      <li>hang in there <span class="meaning">don't give up</span></li>
+      <li>hit the nail on the head <span class="meaning">describe exactly what is causing a situation</span></li>
+      <li>hit the sack <span class="meaning">go to sleep</span></li>
+      <li>in hot water <span class="meaning">in trouble</span></li>
+      <li>it takes two to tango <span class="meaning">both people are responsible</span></li>
+      <li>jump on the bandwagon <span class="meaning">follow a trend</span></li>
+      <li>keep your chin up <span class="meaning">stay positive</span></li>
+      <li>kill two birds with one stone <span class="meaning">accomplish two things with one action</span></li>
+      <li>let sleeping dogs lie <span class="meaning">don't disturb a situation that is currently stable</span></li>
+      <li>let the cat out of the bag <span class="meaning">reveal a secret</span></li>
+      <li>miss the boat <span class="meaning">miss an opportunity</span></li>
+      <li>no pain, no gain <span class="meaning">nothing worthwhile comes without effort</span></li>
+      <li>not your cup of tea <span class="meaning">not something you enjoy</span></li>
+      <li>once in a blue moon <span class="meaning">very rarely</span></li>
+      <li>on thin ice <span class="meaning">in a risky situation</span></li>
+      <li>piece of cake <span class="meaning">very easy</span></li>
+      <li>pull someone's leg <span class="meaning">joke with someone</span></li>
+      <li>pull strings <span class="meaning">use influence to get something</span></li>
+      <li>put all your eggs in one basket <span class="meaning">rely on a single plan</span></li>
+      <li>raining cats and dogs <span class="meaning">raining very heavily</span></li>
+      <li>read between the lines <span class="meaning">understand the hidden meaning</span></li>
+      <li>see eye to eye <span class="meaning">agree with someone</span></li>
+      <li>sit on the fence <span class="meaning">be undecided</span></li>
+      <li>speak of the devil <span class="meaning">the person you were talking about has arrived</span></li>
+      <li>spill the beans <span class="meaning">reveal a secret accidentally</span></li>
+      <li>steal someone's thunder <span class="meaning">take credit for someone else's achievement</span></li>
+      <li>take it with a grain of salt <span class="meaning">don't take it too seriously</span></li>
+      <li>the ball is in your court <span class="meaning">it's your turn to act</span></li>
+      <li>the best of both worlds <span class="meaning">enjoy two advantages at once</span></li>
+      <li>the elephant in the room <span class="meaning">an obvious problem no one wants to discuss</span></li>
+      <li>the last straw <span class="meaning">the final problem that makes a situation unbearable</span></li>
+      <li>throw in the towel <span class="meaning">give up</span></li>
+      <li>time flies <span class="meaning">time passes quickly</span></li>
+      <li>to be on cloud nine <span class="meaning">to be extremely happy</span></li>
+      <li>turn a blind eye <span class="meaning">ignore something deliberately</span></li>
+      <li>under someone's wing <span class="meaning">under someone's care or guidance</span></li>
+      <li>up in the air <span class="meaning">uncertain, undecided</span></li>
+      <li>walking on eggshells <span class="meaning">being very careful not to upset someone</span></li>
+      <li>when pigs fly <span class="meaning">something that will never happen</span></li>
+      <li>wrap your head around <span class="meaning">understand something complicated</span></li>
+      <li>a fish out of water <span class="meaning">someone uncomfortable in their surroundings</span></li>
+      <li>actions speak louder than words <span class="meaning">what you do matters more than what you say</span></li>
+      <li>blood is thicker than water <span class="meaning">family bonds are stronger than others</span></li>
+      <li>caught between a rock and a hard place <span class="meaning">stuck between two bad choices</span></li>
+      <li>curiosity killed the cat <span class="meaning">being too inquisitive can be dangerous</span></li>
+      <li>don't put the cart before the horse <span class="meaning">don't do things out of order</span></li>
+      <li>easier said than done <span class="meaning">harder to do than to talk about</span></li>
+      <li>fight fire with fire <span class="meaning">respond to an attack with a similar method</span></li>
+      <li>get cold feet <span class="meaning">become nervous about something planned</span></li>
+      <li>have a chip on your shoulder <span class="meaning">hold a grudge or sense of grievance</span></li>
+      <li>in the nick of time <span class="meaning">just barely in time</span></li>
+      <li>jump the gun <span class="meaning">act too soon</span></li>
+      <li>keep an eye on <span class="meaning">watch carefully</span></li>
+      <li>leave no stone unturned <span class="meaning">try every possible way</span></li>
+      <li>make a mountain out of a molehill <span class="meaning">exaggerate a small problem</span></li>
+      <li>nip it in the bud <span class="meaning">stop something before it develops</span></li>
+      <li>off the top of my head <span class="meaning">from memory, without thinking hard</span></li>
+      <li>play it by ear <span class="meaning">decide as you go</span></li>
+      <li>ring a bell <span class="meaning">sound familiar</span></li>
+      <li>rule of thumb <span class="meaning">a general principle</span></li>
+      <li>the tip of the iceberg <span class="meaning">a small visible part of a much larger problem</span></li>
+      <li>think outside the box <span class="meaning">think creatively</span></li>
+      <li>throw caution to the wind <span class="meaning">take a risk</span></li>
+      <li>turn over a new leaf <span class="meaning">make a fresh start</span></li>
+      <li>water under the bridge <span class="meaning">past events no longer worth worrying about</span></li>
+      <li>wear your heart on your sleeve <span class="meaning">show your emotions openly</span></li>
+      <li>you can't judge a book by its cover <span class="meaning">appearances can be misleading</span></li>
+      <li>the writing on the wall <span class="meaning">clear signs that something bad will happen</span></li>
+      <li>put your money where your mouth is <span class="meaning">back your words with action</span></li>
+      <li>a stone's throw away <span class="meaning">very near</span></li>
+      <li>at the eleventh hour <span class="meaning">at the last possible moment</span></li>
+      <li>bury the hatchet <span class="meaning">make peace, end a quarrel</span></li>
+      <li>give the cold shoulder <span class="meaning">deliberately ignore someone</span></li>
+      <li>the pot calling the kettle black <span class="meaning">accusing someone of a fault you share</span></li>
+    </ol>
+    <div class="count">100 idioms</div>
+  </div>
+
+  <!-- ===== 100 METAPHORS ===== -->
+  <div class="arsenal-bank">
+    <h4>100 Metaphors</h4>
+    <div class="sub">Ready-made images — one per sentence, for every exam mood and theme</div>
+    <ol>
+      <li>Time is a thief that never returns what it steals.</li>
+      <li>The classroom was a furnace of anxiety.</li>
+      <li>Her voice was a lighthouse in the fog of my confusion.</li>
+      <li>The city is a machine that never sleeps.</li>
+      <li>His silence was a wall between us.</li>
+      <li>The road ahead was an open book with blank pages.</li>
+      <li>Memory is a photograph that fades at the edges.</li>
+      <li>Childhood is a country we can visit but never live in again.</li>
+      <li>Her laughter was medicine for the room.</li>
+      <li>The exam paper was a locked door without a key.</li>
+      <li>Hope is the anchor that keeps us from drifting.</li>
+      <li>The news hit her like a wave she hadn't seen coming.</li>
+      <li>School is a rehearsal for a play no one has written yet.</li>
+      <li>The deadline was a ticking bomb on the calendar.</li>
+      <li>His pride was a cage he had built from the inside.</li>
+      <li>The old house was a museum of everything we had been.</li>
+      <li>Words are bridges — and sometimes barricades.</li>
+      <li>Her anger was a river that had broken its banks.</li>
+      <li>The garden was a green cathedral, quiet and cool.</li>
+      <li>Knowledge is a lamp; ignorance is not the dark but the refusal to light it.</li>
+      <li>The heart is a house with rooms we never enter.</li>
+      <li>The rain was a curtain drawn across the afternoon.</li>
+      <li>His smile was a mask worn so long it had become a face.</li>
+      <li>The internet is an ocean — mostly shallow, occasionally deep.</li>
+      <li>Jealousy is a weed that grows fastest in the best gardens.</li>
+      <li>Her eyes were searchlights, missing nothing.</li>
+      <li>The village was a forgotten comma in the sentence of the highway.</li>
+      <li>Loneliness is a room with no windows.</li>
+      <li>Books are passports to countries that do not require visas.</li>
+      <li>The teacher's patience was a well that never ran dry.</li>
+      <li>Grief is a tide — it pulls away, then returns when you stop expecting it.</li>
+      <li>Ambition is a fire that needs fuel, not just a match.</li>
+      <li>The phone screen was a leash disguised as a window.</li>
+      <li>Trust is a mirror — once cracked, the reflection never looks the same.</li>
+      <li>The exam hall was a courtroom in which I was both witness and accused.</li>
+      <li>Her courage was a small flame in a large wind.</li>
+      <li>The past is a country with one-way borders.</li>
+      <li>Sleep is a door the anxious mind refuses to open.</li>
+      <li>Adolescence is a bridge — long, swaying, and occasionally on fire.</li>
+      <li>The queue was a river of impatience.</li>
+      <li>His temper was a loaded gun with no safety.</li>
+      <li>The budget was a straitjacket they had chosen to wear.</li>
+      <li>The kitchen was the heart of the house, warm and beating.</li>
+      <li>The truth was a stone in her shoe — small, but impossible to ignore.</li>
+      <li>A promise is a debt written in invisible ink.</li>
+      <li>The sky was a bruise, purple and tender at the edges.</li>
+      <li>Freedom is a kite — it needs a string to fly.</li>
+      <li>The city's traffic was a bloodstream clogged with impatience.</li>
+      <li>Her diary was a confessional without a priest.</li>
+      <li>Education is not a ladder; it is a root system.</li>
+      <li>His regret was a stone he carried in every pocket.</li>
+      <li>The hospital corridor was a tunnel between two different lives.</li>
+      <li>The bell was a guillotine that severed every unfinished thought.</li>
+      <li>The library was a sanctuary where noise went to die.</li>
+      <li>Corruption is a termite — invisible until the floor gives way.</li>
+      <li>The monsoon was a guest who overstayed every year.</li>
+      <li>Her conscience was a compass that never stopped pointing north.</li>
+      <li>Rumour is a fire that feeds on the wood of ignorance.</li>
+      <li>The border was a scar on the map's face.</li>
+      <li>Music is the language that grammar cannot police.</li>
+      <li>The photograph was a window to a room that no longer existed.</li>
+      <li>His words were seeds — some flowered, some rotted.</li>
+      <li>The crowd was a single organism, breathing and swaying.</li>
+      <li>Fear is a landlord who charges rent even when you're sleeping.</li>
+      <li>The old tree was a historian, its rings a record of drought and plenty.</li>
+      <li>Her patience was well water — deep, cold, and not always easy to reach.</li>
+      <li>The uniform was armour — it did not protect, but it disguised the wound.</li>
+      <li>The playground was a parliament of small, loud republics.</li>
+      <li>The letter was a handshake across a thousand kilometres.</li>
+      <li>His kindness was a coat he gave away and never asked back for.</li>
+      <li>The power cut was a reminder that the city was built on borrowed light.</li>
+      <li>Nostalgia is a filter that makes everything golden, even the dust.</li>
+      <li>The poem was a key to a door I didn't know I owned.</li>
+      <li>Poverty is a sentence without a full stop.</li>
+      <li>The rooftop was a stage for every private rehearsal I never performed.</li>
+      <li>The clock was a tyrant with an even temper.</li>
+      <li>The sea was a breathing thing, older than memory.</li>
+      <li>His reputation was a shadow that arrived before he did.</li>
+      <li>A family is a knot — pull one thread and the whole thing moves.</li>
+      <li>The festival was a river of colour breaking its banks.</li>
+      <li>The silence between them was a third person in the room.</li>
+      <li>The newspaper was a mirror held up to a city that didn't want to look.</li>
+      <li>Language is a house — grammar is the structure, vocabulary is the furniture.</li>
+      <li>Her disappointment was a well she kept falling into.</li>
+      <li>The argument was a fire that consumed the furniture of their friendship.</li>
+      <li>The email was a stone dropped into the well of bureaucracy.</li>
+      <li>The bus was a small, lurching democracy.</li>
+      <li>His apology was a bandage offered too late for the wound.</li>
+      <li>The train was a needle threading through the fabric of the countryside.</li>
+      <li>The balcony was a small island surrounded by a sea of traffic.</li>
+      <li>Her talent was a wild horse — powerful but in need of a rider.</li>
+      <li>The canteen was a theatre where every performance lasted fifteen minutes.</li>
+      <li>Progress is a door — and every door has a lock and a key and a threshold.</li>
+      <li>The night was a blanket pulled over the city's shoulders.</li>
+      <li>The river was a memory that refused to sit still.</li>
+      <li>His stubbornness was a root that had grown into the foundation.</li>
+      <li>The school bell was a full stop at the end of every unfinished sentence.</li>
+      <li>The map was a lie agreed upon by cartographers.</li>
+      <li>The assignment was a mountain I was required to climb in formal shoes.</li>
+      <li>The morning sun was a searchlight, exposing every flaw the night had hidden.</li>
+      <li>The conversation was a chess game in which neither player had all the pieces.</li>
+    </ol>
+    <div class="count">100 metaphors</div>
+  </div>
+
+  <!-- ===== 100 ALLUSIONS ===== -->
+  <div class="arsenal-bank">
+    <h4>100 Common Allusions</h4>
+    <div class="sub">References to myth, literature, history, religion, pop culture — use them to add depth in one phrase</div>
+    <ol>
+      <li>Achilles' heel <span class="meaning">a fatal weakness despite overall strength</span></li>
+      <li>an Odyssey <span class="meaning">a long, difficult journey</span></li>
+      <li>a Herculean task <span class="meaning">a task requiring enormous effort</span></li>
+      <li>Pandora's box <span class="meaning">a source of unforeseen troubles once opened</span></li>
+      <li>a Trojan horse <span class="meaning">something that seems a gift but is destructive</span></li>
+      <li>the Midas touch <span class="meaning">the ability to make money or succeed at everything</span></li>
+      <li>a Sisyphean task <span class="meaning">an endlessly repeated, futile effort</span></li>
+      <li>the sword of Damocles <span class="meaning">an ever-present danger</span></li>
+      <li>a Pyrrhic victory <span class="meaning">a win that costs too much</span></li>
+      <li>crossing the Rubicon <span class="meaning">passing a point of no return</span></li>
+      <li>opening Pandora's box <span class="meaning">unleashing something impossible to undo</span></li>
+      <li>the golden fleece <span class="meaning">a highly desired but hard-to-get prize</span></li>
+      <li>an Icarus moment <span class="meaning">ambition that leads to downfall</span></li>
+      <li>a Narcissus <span class="meaning">someone consumed by self-admiration</span></li>
+      <li>the Gordian knot <span class="meaning">an extremely complicated problem</span></li>
+      <li>a Promethean act <span class="meaning">defying authority for the benefit of others</span></li>
+      <li>the Augean stables <span class="meaning">a condition of great corruption requiring cleansing</span></li>
+      <li>Elysian Fields <span class="meaning">a place or state of perfect happiness</span></li>
+      <li>a labyrinth <span class="meaning">a complex, confusing structure (from the Minotaur myth)</span></li>
+      <li>a phoenix rising <span class="meaning">rebirth from destruction</span></li>
+      <li>David and Goliath <span class="meaning">an underdog defeating a powerful opponent</span></li>
+      <li>a Good Samaritan <span class="meaning">a person who helps a stranger selflessly</span></li>
+      <li>a prodigal son <span class="meaning">someone who returns repentant after waste</span></li>
+      <li>the writing on the wall <span class="meaning">a clear omen of doom (from Daniel, Bible)</span></li>
+      <li>a Judas <span class="meaning">a traitor</span></li>
+      <li>turning the other cheek <span class="meaning">responding to aggression with non-violence</span></li>
+      <li>an eye for an eye <span class="meaning">retribution equal to the offence</span></li>
+      <li>forbidden fruit <span class="meaning">something desirable but prohibited (from Genesis)</span></li>
+      <li>a Garden of Eden <span class="meaning">an unspoiled paradise</span></li>
+      <li>a Solomon's judgement <span class="meaning">a wise decision in a difficult dispute</span></li>
+      <li>a Tower of Babel <span class="meaning">a scene of confusion and miscommunication</span></li>
+      <li>an Ark <span class="meaning">a refuge or sanctuary (from Noah)</span></li>
+      <li>the patience of Job <span class="meaning">extraordinary endurance of suffering</span></li>
+      <li>a Frankenstein's monster <span class="meaning">a creation that turns on its creator</span></li>
+      <li>a Jekyll and Hyde <span class="meaning">a person with two contrasting sides</span></li>
+      <li>a Scrooge <span class="meaning">a miserly, cold-hearted person</span></li>
+      <li>quixotic <span class="meaning">idealistic and impractical (from Don Quixote)</span></li>
+      <li>Orwellian <span class="meaning">oppressive surveillance and control</span></li>
+      <li>Kafkaesque <span class="meaning">absurdly complex and oppressive bureaucracy</span></li>
+      <li>Machiavellian <span class="meaning">cunning, scheming, politically ruthless</span></li>
+      <li>a utopia <span class="meaning">an imagined perfect society (from Thomas More)</span></li>
+      <li>a dystopia <span class="meaning">an imagined society of suffering and injustice</span></li>
+      <li>Big Brother <span class="meaning">an authoritarian figure or system of surveillance</span></li>
+      <li>a Catch-22 <span class="meaning">a paradoxical situation with no escape</span></li>
+      <li>sour grapes <span class="meaning">pretending to disdain what you can't have (from Aesop)</span></li>
+      <li>the boy who cried wolf <span class="meaning">someone who raises false alarms loses trust</span></li>
+      <li>a tortoise-and-hare situation <span class="meaning">slow-and-steady vs fast-and-careless</span></li>
+      <li>the emperor's new clothes <span class="meaning">a collective pretence about an obvious falsehood</span></li>
+      <li>a Cinderella story <span class="meaning">a rags-to-riches transformation</span></li>
+      <li>a Pied Piper <span class="meaning">a charismatic leader who lures followers</span></li>
+      <li>an albatross around one's neck <span class="meaning">a burden of guilt (from Coleridge)</span></li>
+      <li>a brave new world <span class="meaning">an ironic reference to a supposed utopia (from Huxley)</span></li>
+      <li>a green-eyed monster <span class="meaning">jealousy (from Shakespeare's Othello)</span></li>
+      <li>star-crossed lovers <span class="meaning">lovers doomed by fate (from Romeo and Juliet)</span></li>
+      <li>to be or not to be <span class="meaning">facing an existential dilemma (from Hamlet)</span></li>
+      <li>pound of flesh <span class="meaning">a harsh demand (from The Merchant of Venice)</span></li>
+      <li>all that glitters is not gold <span class="meaning">appearances can be deceptive (Shakespeare)</span></li>
+      <li>et tu, Brute? <span class="meaning">betrayal by a trusted person (from Julius Caesar)</span></li>
+      <li>a Romeo <span class="meaning">an ardent male lover</span></li>
+      <li>much ado about nothing <span class="meaning">a lot of fuss over a trivial matter</span></li>
+      <li>wild-goose chase <span class="meaning">a hopeless pursuit (from Shakespeare)</span></li>
+      <li>a Hamlet <span class="meaning">someone paralysed by indecision</span></li>
+      <li>tilting at windmills <span class="meaning">fighting imaginary enemies (from Don Quixote)</span></li>
+      <li>a road not taken <span class="meaning">a choice that defines a life (from Robert Frost)</span></li>
+      <li>nothing gold can stay <span class="meaning">beauty and innocence are fleeting (Robert Frost)</span></li>
+      <li>a mockingbird <span class="meaning">an innocent or harmless person (from Harper Lee)</span></li>
+      <li>a white whale <span class="meaning">an obsessive, unattainable goal (from Moby-Dick)</span></li>
+      <li>a Big Brother figure <span class="meaning">authoritarian watcher (from Orwell's 1984)</span></li>
+      <li>a Rosebud <span class="meaning">the lost innocence at the heart of a life (from Citizen Kane)</span></li>
+      <li>Waterloo <span class="meaning">a decisive, final defeat (from Napoleon)</span></li>
+      <li>a Trojan effort <span class="meaning">an intensely determined struggle</span></li>
+      <li>the apple of discord <span class="meaning">a cause of dispute (from Greek myth)</span></li>
+      <li>a Medusa <span class="meaning">something horrifying that paralyses (from Greek myth)</span></li>
+      <li>Nero fiddling while Rome burns <span class="meaning">ignoring a crisis</span></li>
+      <li>Armageddon <span class="meaning">a catastrophic final conflict</span></li>
+      <li>an Exodus <span class="meaning">a mass departure</span></li>
+      <li>a Lazarus <span class="meaning">someone who returns from apparent death or ruin</span></li>
+      <li>a Moses moment <span class="meaning">leading people toward a promised land</span></li>
+      <li>the Bermuda Triangle <span class="meaning">a place where things mysteriously vanish</span></li>
+      <li>Camelot <span class="meaning">an idealised golden age or place</span></li>
+      <li>an Achilles <span class="meaning">a great warrior with a hidden flaw</span></li>
+      <li>a Cassandra <span class="meaning">someone whose warnings are ignored</span></li>
+      <li>a Faustian bargain <span class="meaning">trading something important for short-term gain</span></li>
+      <li>the Mona Lisa smile <span class="meaning">a mysterious, unreadable expression</span></li>
+      <li>sowing dragon's teeth <span class="meaning">creating future conflict through present actions</span></li>
+      <li>Rome wasn't built in a day <span class="meaning">great achievements take time</span></li>
+      <li>an ivory tower <span class="meaning">a sheltered, privileged position disconnected from reality</span></li>
+      <li>opening the floodgates <span class="meaning">allowing a rush of something previously controlled</span></li>
+      <li>a Trojan War <span class="meaning">a prolonged conflict begun for personal reasons</span></li>
+      <li>a golden age <span class="meaning">a period of great prosperity or achievement</span></li>
+      <li>Pandemonium <span class="meaning">chaos and uproar (capital of hell in Paradise Lost)</span></li>
+      <li>an Oedipus complex <span class="meaning">an unconscious conflict with a parent figure (Freud/Sophocles)</span></li>
+      <li>a Sphinx's riddle <span class="meaning">a baffling question with a deceptively simple answer</span></li>
+      <li>the Judgement of Paris <span class="meaning">a choice between competing claims of beauty or value</span></li>
+      <li>a sacred cow <span class="meaning">something considered above criticism</span></li>
+      <li>an Atlantis <span class="meaning">a lost civilisation or ideal</span></li>
+      <li>a Siren song <span class="meaning">an alluring but dangerous temptation</span></li>
+      <li>crossing the Styx <span class="meaning">passing from one state to another, especially death</span></li>
+      <li>an Olympian feat <span class="meaning">a superhuman achievement</span></li>
+      <li>a Hermes figure <span class="meaning">a cunning messenger or trickster</span></li>
+    </ol>
+    <div class="count">100 allusions</div>
+  </div>
+
+  <!-- ===== 100 EUPHEMISMS & EPONYMS ===== -->
+  <div class="arsenal-bank">
+    <h4>100 Euphemisms &amp; Eponyms</h4>
+    <div class="sub">Polite substitutions and words born from names — useful for register control, formal writing, and Criterion D</div>
+    <ol>
+      <li><b>passed away</b> <span class="meaning">died</span></li>
+      <li><b>let go</b> <span class="meaning">fired from a job</span></li>
+      <li><b>between jobs</b> <span class="meaning">unemployed</span></li>
+      <li><b>downsizing</b> <span class="meaning">mass layoffs</span></li>
+      <li><b>economical with the truth</b> <span class="meaning">lying or misleading</span></li>
+      <li><b>collateral damage</b> <span class="meaning">civilian casualties in war</span></li>
+      <li><b>friendly fire</b> <span class="meaning">accidentally killing your own soldiers</span></li>
+      <li><b>correctional facility</b> <span class="meaning">prison</span></li>
+      <li><b>senior citizen</b> <span class="meaning">old person</span></li>
+      <li><b>developing nation</b> <span class="meaning">poor country</span></li>
+      <li><b>pre-owned</b> <span class="meaning">second-hand, used</span></li>
+      <li><b>rest room</b> <span class="meaning">toilet</span></li>
+      <li><b>special needs</b> <span class="meaning">having a disability</span></li>
+      <li><b>under the weather</b> <span class="meaning">unwell</span></li>
+      <li><b>negative growth</b> <span class="meaning">economic decline</span></li>
+      <li><b>sleeping with the fishes</b> <span class="meaning">dead, murdered (slang)</span></li>
+      <li><b>in a better place</b> <span class="meaning">dead (religious comfort)</span></li>
+      <li><b>departed</b> <span class="meaning">dead</span></li>
+      <li><b>neutralise</b> <span class="meaning">kill (military)</span></li>
+      <li><b>ethnic cleansing</b> <span class="meaning">genocide or forced removal</span></li>
+      <li><b>enhanced interrogation</b> <span class="meaning">torture</span></li>
+      <li><b>regime change</b> <span class="meaning">overthrowing a government</span></li>
+      <li><b>restructuring</b> <span class="meaning">major layoffs and organisational cuts</span></li>
+      <li><b>rightsizing</b> <span class="meaning">reducing staff</span></li>
+      <li><b>adult beverage</b> <span class="meaning">alcoholic drink</span></li>
+      <li><b>indisposed</b> <span class="meaning">unwell or unavailable</span></li>
+      <li><b>a bit challenged</b> <span class="meaning">having difficulty (often patronising)</span></li>
+      <li><b>the facilities</b> <span class="meaning">toilets</span></li>
+      <li><b>big-boned</b> <span class="meaning">overweight</span></li>
+      <li><b>vertically challenged</b> <span class="meaning">short (humorous)</span></li>
+      <li><b>well-seasoned</b> <span class="meaning">old, experienced</span></li>
+      <li><b>expecting</b> <span class="meaning">pregnant</span></li>
+      <li><b>not the sharpest tool</b> <span class="meaning">not very intelligent</span></li>
+      <li><b>fell off the back of a lorry</b> <span class="meaning">stolen goods</span></li>
+      <li><b>creative accounting</b> <span class="meaning">financial dishonesty</span></li>
+      <li><b>tired and emotional</b> <span class="meaning">drunk (British journalism)</span></li>
+      <li><b>put to sleep</b> <span class="meaning">euthanised (for animals)</span></li>
+      <li><b>gone to a better farm</b> <span class="meaning">a pet has died (for children)</span></li>
+      <li><b>helping the police with enquiries</b> <span class="meaning">being questioned as a suspect</span></li>
+      <li><b>at liberty</b> <span class="meaning">free but implying recent constraint</span></li>
+      <li><b>conflict</b> <span class="meaning">war (diplomatic softening)</span></li>
+      <li><b>a person of interest</b> <span class="meaning">a suspect</span></li>
+      <li><b>substance abuse</b> <span class="meaning">drug addiction</span></li>
+      <li><b>visually impaired</b> <span class="meaning">blind or partially blind</span></li>
+      <li><b>economically disadvantaged</b> <span class="meaning">poor</span></li>
+      <li><b>companion animal</b> <span class="meaning">pet</span></li>
+      <li><b>career transition</b> <span class="meaning">being fired and looking for work</span></li>
+      <li><b>strategic withdrawal</b> <span class="meaning">retreat</span></li>
+      <li><b>mature student</b> <span class="meaning">older-than-usual student</span></li>
+      <li><b>misspoke</b> <span class="meaning">lied or got it wrong publicly</span></li>
+      <li class="meaning" style="list-style:none;font-family:'Inter',sans-serif;font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--amber);padding:12px 0 6px;font-weight:600;column-span:all">Eponyms — words born from names</li>
+      <li><b>boycott</b> <span class="meaning">from Captain Charles Boycott, shunned by Irish tenants</span></li>
+      <li><b>guillotine</b> <span class="meaning">from Dr. Joseph-Ignace Guillotin</span></li>
+      <li><b>sandwich</b> <span class="meaning">from the Earl of Sandwich</span></li>
+      <li><b>diesel</b> <span class="meaning">from Rudolf Diesel, engine inventor</span></li>
+      <li><b>braille</b> <span class="meaning">from Louis Braille, inventor of the tactile script</span></li>
+      <li><b>pasteurise</b> <span class="meaning">from Louis Pasteur, microbiologist</span></li>
+      <li><b>nicotine</b> <span class="meaning">from Jean Nicot, who introduced tobacco to France</span></li>
+      <li><b>algorithm</b> <span class="meaning">from al-Khwarizmi, Persian mathematician</span></li>
+      <li><b>saxophone</b> <span class="meaning">from Adolphe Sax, instrument maker</span></li>
+      <li><b>shrapnel</b> <span class="meaning">from General Henry Shrapnel</span></li>
+      <li><b>maverick</b> <span class="meaning">from Samuel Maverick, who refused to brand cattle</span></li>
+      <li><b>leotard</b> <span class="meaning">from Jules Leotard, French acrobat</span></li>
+      <li><b>cardigan</b> <span class="meaning">from Lord Cardigan of the Crimean War</span></li>
+      <li><b>Celsius</b> <span class="meaning">from Anders Celsius, astronomer</span></li>
+      <li><b>ampere</b> <span class="meaning">from Andre-Marie Ampere, physicist</span></li>
+      <li><b>watt</b> <span class="meaning">from James Watt, steam-engine pioneer</span></li>
+      <li><b>volt</b> <span class="meaning">from Alessandro Volta, electricity pioneer</span></li>
+      <li><b>atlas</b> <span class="meaning">from Atlas, the Titan who held up the sky</span></li>
+      <li><b>herculean</b> <span class="meaning">from Hercules, requiring great strength</span></li>
+      <li><b>tantalize</b> <span class="meaning">from Tantalus, punished by unreachable fruit</span></li>
+      <li><b>narcissism</b> <span class="meaning">from Narcissus, who fell in love with his reflection</span></li>
+      <li><b>odyssey</b> <span class="meaning">from Odysseus; a long, adventurous journey</span></li>
+      <li><b>mentor</b> <span class="meaning">from Mentor, adviser to Telemachus in the Odyssey</span></li>
+      <li><b>spartan</b> <span class="meaning">from Sparta; austere, disciplined</span></li>
+      <li><b>stoic</b> <span class="meaning">from the Stoic school of philosophy; enduring without complaint</span></li>
+      <li><b>platonic</b> <span class="meaning">from Plato; non-romantic love or idealism</span></li>
+      <li><b>draconian</b> <span class="meaning">from Draco of Athens; excessively harsh</span></li>
+      <li><b>cynic</b> <span class="meaning">from the Cynics, ancient Greek philosophical school</span></li>
+      <li><b>laconic</b> <span class="meaning">from Laconia (Sparta); using very few words</span></li>
+      <li><b>silhouette</b> <span class="meaning">from Etienne de Silhouette, French finance minister</span></li>
+      <li><b>gerrymandering</b> <span class="meaning">from Governor Elbridge Gerry; manipulating electoral boundaries</span></li>
+      <li><b>bloomers</b> <span class="meaning">from Amelia Bloomer, women's-rights advocate</span></li>
+      <li><b>jacuzzi</b> <span class="meaning">from Candido Jacuzzi, Italian-American inventor</span></li>
+      <li><b>Morse code</b> <span class="meaning">from Samuel Morse, telegraph inventor</span></li>
+      <li><b>quixotic</b> <span class="meaning">from Don Quixote; unrealistically idealistic</span></li>
+      <li><b>Kafkaesque</b> <span class="meaning">from Franz Kafka; nightmarishly bureaucratic</span></li>
+      <li><b>Orwellian</b> <span class="meaning">from George Orwell; totalitarian surveillance state</span></li>
+      <li><b>bowdlerise</b> <span class="meaning">from Thomas Bowdler; to censor prudishly</span></li>
+      <li><b>quisling</b> <span class="meaning">from Vidkun Quisling; a traitor who collaborates with the enemy</span></li>
+      <li><b>chauvinist</b> <span class="meaning">from Nicolas Chauvin; exaggerated patriotism or sexism</span></li>
+      <li><b>serendipity</b> <span class="meaning">coined by Horace Walpole, from the fairy tale "The Three Princes of Serendip"</span></li>
+      <li><b>dunce</b> <span class="meaning">from John Duns Scotus, whose followers resisted new learning</span></li>
+      <li><b>vandal</b> <span class="meaning">from the Vandals, a Germanic tribe that sacked Rome</span></li>
+      <li><b>philistine</b> <span class="meaning">from the Philistines; someone hostile to culture</span></li>
+      <li><b>hooligan</b> <span class="meaning">possibly from the Houlihan family, London troublemakers</span></li>
+      <li><b>juggernaut</b> <span class="meaning">from Jagannath, a Hindu deity; an unstoppable force</span></li>
+      <li><b>thug</b> <span class="meaning">from the Thugs, a cult in India; a violent criminal</span></li>
+      <li><b>pajamas</b> <span class="meaning">from Hindi/Urdu "paijama"; leg garment</span></li>
+      <li><b>bungalow</b> <span class="meaning">from Bengali "bangla"; a single-storey house</span></li>
+      <li><b>avatar</b> <span class="meaning">from Sanskrit; an incarnation or digital persona</span></li>
+    </ol>
+    <div class="count">50 euphemisms + 50 eponyms = 100 total</div>
+  </div>
+
+</section>
+</div><!-- /panel-arsenal -->
 
 <footer>
-  Built for a twenty-day runway · Fifteen exemplars · One examiner's smile away from a 7
+  Built for a twenty-day runway · Thirty exemplars · Six tabs · One examiner's smile away from a 7
 </footer>
 
 </div>
 
 <script>
-  // Smooth scroll + TOC active highlight
-  const links = document.querySelectorAll('nav.toc a');
-  const sections = [...document.querySelectorAll('section')];
-  const setActive = () => {
-    const y = window.scrollY + 120;
-    let active = sections[0];
-    for (const s of sections) if (s.offsetTop <= y) active = s;
-    links.forEach(l => l.style.color = l.getAttribute('href') === '#' + active.id ? 'var(--ink)' : '');
-  };
-  window.addEventListener('scroll', setActive, {passive:true});
-  setActive();
+  // Tab switching
+  const btns = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.tab-panel');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      const target = document.getElementById('panel-' + btn.dataset.tab);
+      if (target) {
+        target.classList.add('active');
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      }
+    });
+  });
 </script>
 </body>
 </html>
